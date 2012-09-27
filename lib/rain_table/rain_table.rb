@@ -79,6 +79,7 @@ module RainTable
           rows = rows.reverse
         end
       end
+
       if @options[:select]
         @table_rows = rows.collect{|row|
           @options[:select].collect{|select_column|
@@ -104,9 +105,11 @@ module RainTable
         @table_rows = rows.collect{|row|row.values}
         @column_names = rows.first.keys
       end
+
       @column_widths = ([@column_names] + @table_rows).compact.transpose.collect{|vertical_values|
         vertical_values.collect{|value|width_of(value)}.max
       }
+
       out = [separater]
       if @column_names
         out += [header, separater]

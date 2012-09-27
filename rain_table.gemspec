@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name = "rain_table"
-  spec.version = "0.1.0"
+  spec.version = "0.1.1"
   spec.summary = "text table generator"
   spec.email = "akicho8@gmail.com"
   spec.author = "akicho8"
