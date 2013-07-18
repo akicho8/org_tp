@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-require_relative "../spec_helper"
+require_relative "spec_helper"
 
 describe RainTable::TableFormatter do
   it do

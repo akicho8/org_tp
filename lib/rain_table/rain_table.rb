@@ -209,8 +209,8 @@ end
 if $0 == __FILE__
   rows = [
     {:id => 1, :name => "alice", :description => "0123456789"},
-    {:id => 2, :name => "bob",   :description => "ドラえもん"},
-    {:id => 3, :name => "bob",   :description => "夢弁慶"},
+    {:id => 2, :name => "bob",   :description => "あいうえお"},
+    {:id => 3, :name => "bob",   :description => "あいう"},
   ]
   select = [
     {:key => :id,          :label => "ID",   :size => nil},
