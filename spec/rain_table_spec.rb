@@ -91,4 +91,16 @@ EOT
 +--+-----+--------+
 EOT
   end
+
+  it "組み込み" do
+    result = <<-EOT.strip_heredoc
++---+
+| a |
++---+
+| 1 |
++---+
+EOT
+    [{:a => 1}].to_t.should == result
+    {:a => 1}.to_t.should   == result
+  end
 end
