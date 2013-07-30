@@ -1,5 +1,4 @@
 require_relative "spec_helper"
-require "rain_table/active_record"
 require "active_record"
 
 ActiveRecord::Base.send(:include, RainTable::ActiveRecord)
@@ -21,7 +20,7 @@ describe RainTable::ActiveRecord do
   end
 
   it do
-    User.to_table
-    User.first.to_table
+    User.to_t
+    User.first.to_t
   end
 end

@@ -102,5 +102,9 @@ EOT
 EOT
     [{:a => 1}].to_t.should == result
     {:a => 1}.to_t.should   == result
+
+    1.to_t.should be_present
+    "1".to_t.should be_present
+    Module.new.should be_present
   end
 end
