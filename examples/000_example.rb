@@ -5,6 +5,7 @@ require "rain_table"
 tt 1
 tt "foo"
 tt :foo
+tt({:id => 1, :name => "alice"})
 tt [{:id => 1, :name => "alice"}, {:id => 2, :name => "bob"}]
 
 ActiveRecord::Base.send(:include, RainTable::ActiveRecord)
@@ -42,6 +43,11 @@ puts [{:id => 1, :name => "alice"}, {:id => 2, :name => "bob"}].to_t
 # >> +--------+
 # >> | foo    |
 # >> +--------+
+# >> +----+-------+
+# >> | id | name  |
+# >> +----+-------+
+# >> |  1 | alice |
+# >> +----+-------+
 # >> +----+-------+
 # >> | id | name  |
 # >> +----+-------+
