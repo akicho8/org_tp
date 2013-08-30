@@ -11,7 +11,7 @@ module RainTable
     end
 
     def to_t(options = {})
-      RainTable.generate([attributes], options)
+      RainTable.generate(attributes, options)
     end
   end
 end
@@ -30,7 +30,7 @@ end
 
 class Hash
   def to_t(options = {})
-    RainTable.generate([self], options)
+    RainTable.generate(self, options)
   end
 end
 

@@ -20,7 +20,19 @@ describe RainTable::ActiveRecord do
   end
 
   it do
-    User.to_t
-    User.first.to_t
+    User.to_t.should == <<-EOT.strip_heredoc
++----+------+
+| id | name |
++----+------+
+|  1 |    0 |
+|  2 |    1 |
++----+------+
+EOT
+    User.first.to_t.should == <<-EOT.strip_heredoc
++------+---+
+| id   | 1 |
+| name | 0 |
++------+---+
+EOT
   end
 end

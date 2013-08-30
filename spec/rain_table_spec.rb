@@ -92,19 +92,29 @@ EOT
 EOT
   end
 
-  it "組み込み" do
-    result = <<-EOT.strip_heredoc
+  describe "組み込み" do
+    it "ハッシュの配列はいままで通り" do
+      [{:a => 1}].to_t.should == <<-EOT.strip_heredoc
 +---+
 | a |
 +---+
 | 1 |
 +---+
 EOT
-    [{:a => 1}].to_t.should == result
-    {:a => 1}.to_t.should   == result
+    end
 
-    1.to_t.should be_present
-    "1".to_t.should be_present
-    Module.new.should be_present
+    it "ハッシュのみの場合は縦に表示" do
+      {:a => 1}.to_t.should == <<-EOT.strip_heredoc
++---+---+
+| a | 1 |
++---+---+
+EOT
+    end
+
+    it "その他" do
+      1.to_t.should be_present
+      "1".to_t.should be_present
+      Module.new.should be_present
+    end
   end
 end

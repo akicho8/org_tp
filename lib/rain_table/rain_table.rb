@@ -33,7 +33,7 @@ module RainTable
 
     def initialize(rows = [], options = {}, &block)
       @options = {
-        :header       => true,
+        :header       => rows.kind_of?(Hash) ? false : true,
         :select       => nil,
         :vertical     => "|",
         :intersection => "+",
@@ -48,6 +48,7 @@ module RainTable
       if block_given?
         yield @options
       end
+      @column_names = nil
     end
 
     def generate
@@ -56,6 +57,10 @@ module RainTable
       end
 
       rows = @rows
+
+      if rows.kind_of? Hash
+        rows = rows.collect{|k,v|{:key => k, :value => v}}
+      end
 
       if @options[:normalize]
         rows = rows.collect{|row|
@@ -98,12 +103,12 @@ module RainTable
             end
             str
           }
-        else
-          @column_names = nil
         end
       else
         @table_rows = rows.collect{|row|row.values}
-        @column_names = rows.first.keys
+        if @options[:header]
+          @column_names = rows.first.keys
+        end
       end
 
       @column_widths = ([@column_names] + @table_rows).compact.transpose.collect{|vertical_values|
@@ -228,4 +233,5 @@ if $0 == __FILE__
     options[:sort_by] = false
     options[:select] = select
   }
+  puts RainTable.generate({:a => 1, :b => 2}, :header => false)
 end
