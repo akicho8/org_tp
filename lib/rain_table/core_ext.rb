@@ -18,7 +18,11 @@ end
 
 module Kernel
   def tt(object, options = {})
-    object.to_t(options).display
+    if object.respond_to?(:to_t)
+      object.to_t(options).display
+    else
+      RainTable.generate([{object.class.name => object}], {:header => false}.merge(options)).display
+    end
   end
 end
 
@@ -37,7 +41,7 @@ end
 [Symbol, String, Numeric].each do |klass|
   klass.class_eval do
     def to_t(options = {})
-      RainTable.generate([{self.class.name => self}], options)
+      RainTable.generate([{self.class.name => self}], {:header => false}.merge(options))
     end
   end
 end
