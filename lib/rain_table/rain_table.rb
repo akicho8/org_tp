@@ -22,6 +22,7 @@
 
 require "active_support/core_ext/string"
 require "kconv"
+require "set"
 
 module RainTable
   def self.generate(*args, &block)
@@ -105,10 +106,11 @@ module RainTable
           }
         end
       else
-        @table_rows = rows.collect{|row|row.values}
+        columns = rows.inject(Set.new){|set, row| set.merge(row.keys) }.to_a
         if @options[:header]
-          @column_names = rows.first.keys
+          @column_names = columns
         end
+        @table_rows = rows.collect{|row|row.values_at(*columns)}
       end
 
       @column_widths = ([@column_names] + @table_rows).compact.transpose.collect{|vertical_values|
@@ -215,7 +217,7 @@ if $0 == __FILE__
   rows = [
     {:id => 1, :name => "alice", :description => "0123456789"},
     {:id => 2, :name => "bob",   :description => "あいうえお"},
-    {:id => 3, :name => "bob",   :description => "あいう"},
+    {:id => 3, :name => "carol"},
   ]
   select = [
     {:key => :id,          :label => "ID",   :size => nil},
