@@ -115,6 +115,11 @@ EOT
       1.to_t.should be_present
       "1".to_t.should be_present
       Module.new.should be_present
-    end
+      {:a => []}.to_t.should == <<-EOT.strip_heredoc
++---+----+
+| a | [] |
++---+----+
+EOT
+  end
   end
 end

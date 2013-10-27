@@ -60,7 +60,7 @@ module RainTable
       rows = @rows
 
       if rows.kind_of? Hash
-        rows = rows.collect{|k,v|{:key => k, :value => v}}
+        rows = rows.collect{|k,v|{:key => k, :value => v.to_s}}
       end
 
       if @options[:normalize]
@@ -224,6 +224,7 @@ if $0 == __FILE__
     {:key => :name,        :label => "名前", :size => nil, :align => :right},
     {:key => :description, :label => "説明", :size => 8, :align => :right},
   ]
+  puts RainTable.generate({:a => []})
   puts RainTable.generate([])
   puts RainTable.generate(rows)
   puts RainTable.generate(rows, :select => select)
