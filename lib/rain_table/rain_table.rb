@@ -60,7 +60,7 @@ module RainTable
       rows = @rows
 
       if rows.kind_of? Hash
-        rows = rows.collect{|k,v|{:key => k, :value => v.to_s}}
+        rows = rows.collect{|k,v|{:key => k.to_s, :value => v.to_s}}
       end
 
       if @options[:normalize]

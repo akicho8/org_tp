@@ -115,11 +115,13 @@ EOT
       1.to_t.should be_present
       "1".to_t.should be_present
       Module.new.should be_present
-      {:a => []}.to_t.should == <<-EOT.strip_heredoc
-+---+----+
-| a | [] |
-+---+----+
+      {[:a] => []}.to_t.should == <<-EOT.strip_heredoc
++------+----+
+| [:a] | [] |
++------+----+
 EOT
   end
   end
 end
+# ~> -:3:in `require_relative': cannot infer basepath (LoadError)
+# ~> 	from -:3:in `<main>'
