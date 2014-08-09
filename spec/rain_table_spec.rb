@@ -81,7 +81,7 @@ EOT
   end
 
   it "パディングなし" do
-      RainTable.generate(@rows, :select => @select, :padding => false).should == <<-EOT.strip_heredoc
+    RainTable.generate(@rows, :select => @select, :padding => false).should == <<-EOT.strip_heredoc
 +--+-----+--------+
 |ID| 名前|    説明|
 +--+-----+--------+
@@ -111,6 +111,15 @@ EOT
 EOT
     end
 
+    it "文字列の配列は縦に並べて表示" do
+      ["a", "b"].to_t.should == <<-EOT.strip_heredoc
++---+
+| a |
+| b |
++---+
+EOT
+    end
+
     it "その他" do
       1.to_t.should be_present
       "1".to_t.should be_present
@@ -120,8 +129,6 @@ EOT
 | [:a] | [] |
 +------+----+
 EOT
-  end
+    end
   end
 end
-# ~> -:3:in `require_relative': cannot infer basepath (LoadError)
-# ~> 	from -:3:in `<main>'

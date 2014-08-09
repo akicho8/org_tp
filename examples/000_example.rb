@@ -6,6 +6,7 @@ require "rain_table"
 tt 1
 tt "foo"
 tt :foo
+tt [:a, :b]
 tt({:id => 1, :name => "alice"})
 tt [{:id => 1, :name => "alice"}, {:id => 2, :name => "bob"}]
 

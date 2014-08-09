@@ -53,82 +53,117 @@ module RainTable
     end
 
     def generate
-      if @rows.blank?
-        return ""
-      end
+      return "" if @rows.blank?
 
-      rows = @rows
-
-      if rows.kind_of? Hash
-        rows = rows.collect{|k,v|{:key => k.to_s, :value => v.to_s}}
-      end
-
-      if @options[:normalize]
-        rows = rows.collect{|row|
-          row = row.collect{|k, v|
-            if v.kind_of? String
-              v = v.kconv(Kconv::EUC, @options[:in_code]).kconv(@options[:in_code], Kconv::EUC)
-            end
-            [k, v]
-          }
-          Hash[*row.flatten(1)]
-        }
-      end
-
-      if @options[:sort_by]
-        if @options[:sort_by].kind_of? Proc
-          rows = rows.sort_by(&@options[:sort_by])
-        else
-          rows = rows.sort_by{|row|row[@options[:sort_by]]}
-        end
-        if @options[:reverse]
-          rows = rows.reverse
-        end
-      end
+      hash_to_hash_array
+      magic_value_array_to_hash_array
+      hash_array_normalize
+      hash_array_sort
 
       if @options[:select]
-        @table_rows = rows.collect{|row|
-          @options[:select].collect{|select_column|
-            str = row[select_column[:key]].to_s
-            if select_column[:size]
-              str = bytesize_truncate(str, select_column[:size])
-            end
-            str
-          }
-        }
-        if @options[:header]
-          @column_names = @options[:select].collect{|select_column|
-            str = select_column[:label] || select_column[:key].to_s.titleize
-            if select_column[:size]
-              str = bytesize_truncate(str, select_column[:size])
-            end
-            str
-          }
-        end
+        table_vars_set_if_select
       else
-        columns = rows.inject(Set.new){|set, row| set.merge(row.keys) }.to_a
-        if @options[:header]
-          @column_names = columns
-        end
-        @table_rows = rows.collect{|row|row.values_at(*columns)}
+        table_vars_set_if_auto
       end
 
-      @column_widths = ([@column_names] + @table_rows).compact.transpose.collect{|vertical_values|
-        vertical_values.collect{|value|width_of(value)}.max
-      }
-
-      out = [separater]
+      out = []
+      out << separater
       if @column_names
-        out += [header, separater]
+        out << header
+        out << separater
       end
-      out += [body, separater]
+      out << body
+      out << separater
       out.flatten.join("\n") + "\n"
     end
 
     private
 
+    def hash_to_hash_array
+      if @rows.kind_of? Hash
+        @rows = @rows.collect{|k, v|{:key => k.to_s, :value => v.to_s}}
+      end
+    end
+
+    # ["a", "b"] => [{"(value)" => "a"}, {"(value)" => "b"}] としてヘッダーも無効にする
+    def magic_value_array_to_hash_array
+      @rows = @rows.collect.with_index do |e, i|
+        if e.kind_of? Hash
+          e
+        else
+          @options[:header] = false
+          unless e.kind_of? String
+            e = e.inspect
+          end
+          {"(value)" => e}
+        end
+      end
+    end
+
+    def hash_array_normalize
+      if @options[:normalize]
+        @rows = @rows.collect do |row|
+          row = row.collect do |k, v|
+            if v.kind_of? String
+              v = v.kconv(Kconv::EUC, @options[:in_code]).kconv(@options[:in_code], Kconv::EUC)
+            end
+            [k, v]
+          end
+          Hash[*row.flatten(1)]
+        end
+      end
+    end
+
+    def hash_array_sort
+      if @options[:sort_by]
+        if @options[:sort_by].kind_of? Proc
+          @rows = rows.sort_by(&@options[:sort_by])
+        else
+          @rows = rows.sort_by{|row|row[@options[:sort_by]]}
+        end
+        if @options[:reverse]
+          @rows = rows.reverse
+        end
+      end
+    end
+
+    def table_vars_set_if_select
+      @table_rows = @rows.collect do |row|
+        @options[:select].collect do |select_column|
+          str = row[select_column[:key]].to_s
+          if select_column[:size]
+            str = bytesize_truncate(str, select_column[:size])
+          end
+          str
+        end
+      end
+      if @options[:header]
+        @column_names = @options[:select].collect do |select_column|
+          str = select_column[:label] || select_column[:key].to_s.titleize
+          if select_column[:size]
+            str = bytesize_truncate(str, select_column[:size])
+          end
+          str
+        end
+      end
+    end
+
+    def table_vars_set_if_auto
+      columns = @rows.inject(Set.new){|set, row| set.merge(row.keys) }.to_a
+      if @options[:header]
+        @column_names = columns
+      end
+      @table_rows = rows.collect{|row|row.values_at(*columns)}
+    end
+
+    def column_widths
+      @column_widths ||= ([@column_names] + @table_rows).compact.transpose.collect do |vertical_values|
+        vertical_values.collect{|value|width_of(value)}.max
+      end
+    end
+
     def separater
-      @options[:intersection] + @column_widths.enum_for(:each_with_index).collect{|column_width, i|
+      @options[:intersection] + column_widths.enum_for(:each_with_index).collect{|column_width, i|
         @options[:horizon] * (padding(i).size + column_width + padding(i).size)
       }.join(@options[:intersection]) + @options[:intersection]
     end
@@ -143,7 +178,7 @@ module RainTable
 
     def line_str(row)
       @options[:vertical] + row.enum_for(:each_with_index).collect{|value, i|
-        padding(i) + just(value, @column_widths[i], align(i)) + padding(i)
+        padding(i) + just(value, column_widths[i], align(i)) + padding(i)
       }.join(@options[:vertical]) + @options[:vertical]
     end
 
