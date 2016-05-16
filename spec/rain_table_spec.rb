@@ -9,11 +9,6 @@ describe RainTable do
       {:id => 2, :name => "bob",   :description => "あいうえお"},
       {:id => 3, :name => "bob"},
     ]
-    @select = [
-      {:key => :id,          :label => "ID",   :size => nil},
-      {:key => :name,        :label => "名前", :size => nil, :align => :right},
-      {:key => :description, :label => "説明", :size => 8, :align => :right},
-    ]
   end
 
   it "空の場合" do
@@ -32,63 +27,25 @@ describe RainTable do
 EOT
   end
 
-  it "オプションをブロックで指定" do
-    RainTable.generate(@rows){|options|
-      options[:select] = @select
-    }.should == <<-EOT.strip_heredoc
-+----+-------+----------+
-| ID |  名前 |     説明 |
-+----+-------+----------+
-|  1 | alice | 01234567 |
-|  2 |   bob | あいうえ |
-|  3 |   bob |          |
-+----+-------+----------+
-EOT
-  end
-
-  it "ID昇順" do
-    RainTable.generate(@rows, :select => @select, :sort_by => :id).should == <<-EOT.strip_heredoc
-+----+-------+----------+
-| ID |  名前 |     説明 |
-+----+-------+----------+
-|  1 | alice | 01234567 |
-|  2 |   bob | あいうえ |
-|  3 |   bob |          |
-+----+-------+----------+
-EOT
-  end
-
-  it "ID降順" do
-    RainTable.generate(@rows, :select => @select, :sort_by => proc{|row|-row[:id]}).should == <<-EOT.strip_heredoc
-+----+-------+----------+
-| ID |  名前 |     説明 |
-+----+-------+----------+
-|  3 |   bob |          |
-|  2 |   bob | あいうえ |
-|  1 | alice | 01234567 |
-+----+-------+----------+
-EOT
-  end
-
   it "ヘッダーなし" do
-    RainTable.generate(@rows, :select => @select, :header => false).should == <<-EOT.strip_heredoc
-+---+-------+----------+
-| 1 | alice | 01234567 |
-| 2 |   bob | あいうえ |
-| 3 |   bob |          |
-+---+-------+----------+
+    RainTable.generate(@rows, :header => false).should == <<-EOT.strip_heredoc
++---+-------+------------+
+| 1 | alice | 0123456789 |
+| 2 | bob   | あいうえお |
+| 3 | bob   |            |
++---+-------+------------+
 EOT
   end
 
   it "パディングなし" do
-    RainTable.generate(@rows, :select => @select, :padding => false).should == <<-EOT.strip_heredoc
-+--+-----+--------+
-|ID| 名前|    説明|
-+--+-----+--------+
-| 1|alice|01234567|
-| 2|  bob|あいうえ|
-| 3|  bob|        |
-+--+-----+--------+
+    RainTable.generate(@rows, :padding => "").should == <<-EOT.strip_heredoc
++--+-----+-----------+
+|id|name |description|
++--+-----+-----------+
+| 1|alice| 0123456789|
+| 2|bob  |あいうえお |
+| 3|bob  |           |
++--+-----+-----------+
 EOT
   end
 
@@ -128,6 +85,16 @@ EOT
 +------+----+
 | [:a] | [] |
 +------+----+
+EOT
+    end
+
+    it "ハッシュの配列で値が配列のとき幅がおかしくならない" do
+      RainTable.generate([{"a" => ["a"]}]).should == <<-EOT.strip_heredoc
++-------+
+| a     |
++-------+
+| ["a"] |
++-------+
 EOT
     end
   end
