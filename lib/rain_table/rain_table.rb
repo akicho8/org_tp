@@ -2,23 +2,6 @@
 #
 # 表の生成
 #
-#   rows = [
-#     {:id => 1, :name => "alice", :description => "あいうえお"},
-#     {:id => 2, :name => "bob",   :description => "あいうえお"},
-#   ]
-#   select = [
-#     {:key => :id,          :label => "ID",   :size => nil},
-#     {:key => :name,        :label => "名前", :size => nil},
-#     {:key => :description, :label => "説明", :size => 3},
-#   ]
-#   print RainTable.generate(rows, :select => select)
-#   +----+-------+--------+
-#   | ID | 名前  | 説明   |
-#   +----+-------+--------+
-#   |  2 | bob   | あいう |
-#   |  1 | alice | あいう |
-#   +----+-------+--------+
-#
 
 require "active_support/core_ext/string"
 require "kconv"
@@ -156,19 +139,8 @@ if $0 == __FILE__
     {:id => 2, :name => "bob",   :description => "あいうえお"},
     {:id => 3, :name => "carol"},
   ]
-  select = [
-    {:key => :id,          :label => "ID",   :size => nil},
-    {:key => :name,        :label => "名前", :size => nil, :align => :right},
-    {:key => :description, :label => "説明", :size => 8, :align => :right},
-  ]
   puts RainTable.generate({:a => []})
   puts RainTable.generate([])
   puts RainTable.generate(rows)
-  puts RainTable.generate(rows, :select => select)
-  puts RainTable.generate(rows, :select => select, :header => false)
-  puts RainTable.generate(rows, :select => select, :padding => false)
-  puts RainTable.generate(rows){|options|
-    options[:select] = select
-  }
   puts RainTable.generate({:a => 1, :b => 2}, :header => false)
 end
