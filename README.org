@@ -68,15 +68,3 @@
    : # >> |  1 | alice |
    : # >> |  2 | bob   |
    : # >> +----+-------+
-
-** TableFomatter とインタフェース互換
-
-   : header = ["ID", "名前"]
-   : rows = [[1, "alice"], [2, "bob"]]
-   : puts RainTable::TableFormatter.format(header, rows)
-   : +----+-------+
-   : | ID | 名前  |
-   : +----+-------+
-   : |  1 | alice |
-   : |  2 | bob   |
-   : +----+-------+
