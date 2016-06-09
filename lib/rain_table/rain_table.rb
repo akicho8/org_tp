@@ -66,17 +66,19 @@ module RainTable
     end
 
     def separater
-      return @separater if @separater
+      @separater ||= _separater
+    end
 
+    def _separater
       s = column_widths.collect { |e|
         @options[:horizon] * (padding.size + e + padding.size)
       }
       s = s.join(@options[:intersection])
-      @separater = [@options[:intersection], s, @options[:intersection]].join
+      [@options[:intersection], s, @options[:intersection]].join
     end
 
     def header
-      line_str(@column_names)
+      @header ||= line_str(@column_names)
     end
 
     def body
