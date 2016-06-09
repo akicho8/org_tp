@@ -1,10 +1,8 @@
-require "active_support/concern"
+require "active_support/core_ext/kernel/concern"
 
 module RainTable
-  module ActiveRecord
-    extend ActiveSupport::Concern
-
-    module ClassMethods
+  concern :ActiveRecord do
+    class_methods do
       def to_t(options = {})
         RainTable.generate(all.collect(&:attributes), options)
       end
@@ -16,7 +14,7 @@ module RainTable
   end
 end
 
-module Kernel
+Kernel.class_eval do
   def tt(object, options = {})
     if object.respond_to?(:to_t)
       object.to_t(options).display
@@ -26,13 +24,13 @@ module Kernel
   end
 end
 
-class Array
+Array.class_eval do
   def to_t(options = {})
     RainTable.generate(self, options)
   end
 end
 
-class Hash
+Hash.class_eval do
   def to_t(options = {})
     RainTable.generate(self, options)
   end

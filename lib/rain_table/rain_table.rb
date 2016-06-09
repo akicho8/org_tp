@@ -1,7 +1,4 @@
-# -*- coding: utf-8 -*-
-#
 # 表の生成
-#
 
 require "active_support/core_ext/string"
 require "kconv"
@@ -13,11 +10,9 @@ module RainTable
   end
 
   class Generator
-    attr_accessor :rows, :options
-
-    def initialize(rows = [], options = {})
+    def initialize(rows, options = {})
       @options = {
-        :header       => rows.kind_of?(Hash) ? false : true,
+        :header       => nil,
         :vertical     => "|",
         :intersection => "+",
         :horizon      => "-",
@@ -32,10 +27,16 @@ module RainTable
     def generate
       return "" if @rows.blank?
 
-      hash_to_hash_array
-      magic_value_array_to_hash_array
+      functions.each do |e|
+        if e[:if][@rows]
+          @rows = e[:convert][@rows]
+          if @options[:header].nil?
+            @options[:header] = e[:header]
+          end
+        end
+      end
 
-      table_vars_set_if_auto
+      table_rows_build
 
       out = []
       out << separater
@@ -50,27 +51,7 @@ module RainTable
 
     private
 
-    def hash_to_hash_array
-      if @rows.kind_of? Hash
-        @rows = @rows.collect do |k, v|
-          {:key => k.to_s, :value => v.to_s}
-        end
-      end
-    end
-
-    # ["a", "b"] => [{"(value)" => "a"}, {"(value)" => "b"}] としてヘッダーも無効にする
-    def magic_value_array_to_hash_array
-      @rows = @rows.collect do |e|
-        if e.kind_of? Hash
-          e
-        else
-          @options[:header] = false
-          {"(value)" => e}
-        end
-      end
-    end
-
-    def table_vars_set_if_auto
+    def table_rows_build
       columns = @rows.inject([]) { |a, e| a | e.keys }
       if @options[:header]
         @column_names = columns
@@ -130,6 +111,40 @@ module RainTable
     def width_of(str)
       str.to_s.kconv(Kconv::EUC, @options[:in_code]).bytesize
     end
+
+    def functions
+      [
+        {
+          :if => -> e { e.kind_of?(Hash) },
+          :header => false,
+          :convert => -> e {
+            e.collect do |k, v|
+              {"(key)" => k.to_s, "(value)" => v.to_s}
+            end
+          },
+        },
+        {
+          :if => -> e { e.kind_of?(Array) && e.any?{|e|!e.kind_of?(Hash)} },
+          :header => false,
+          :convert => -> e {
+            e.collect do |e|
+              if e.kind_of? Hash
+                e
+              else
+                {"(array_value)" => e}
+              end
+            end
+          },
+        },
+        {
+          :if => -> e { e.kind_of?(Array) && e.all?{|e|e.kind_of?(Hash)} },
+          :header => true,
+          :convert => -> e {
+            e
+          },
+        },
+      ]
+    end
   end
 end
 
@@ -144,3 +159,18 @@ if $0 == __FILE__
   puts RainTable.generate(rows)
   puts RainTable.generate({:a => 1, :b => 2}, :header => false)
 end
+# >> +---+----+
+# >> | a | [] |
+# >> +---+----+
+# >> 
+# >> +----+-------+-------------+
+# >> | id | name  | description |
+# >> +----+-------+-------------+
+# >> |  1 | alice |  0123456789 |
+# >> |  2 | bob   | あいうえお  |
+# >> |  3 | carol |             |
+# >> +----+-------+-------------+
+# >> +---+---+
+# >> | a | 1 |
+# >> | b | 2 |
+# >> +---+---+
