@@ -2,7 +2,6 @@
 
 require "active_support/core_ext/string"
 require "kconv"
-require "set"
 
 module RainTable
   def self.generate(*args, &block)
