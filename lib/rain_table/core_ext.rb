@@ -15,6 +15,8 @@ module RainTable
 end
 
 Kernel.class_eval do
+  private
+
   def tt(object, options = {})
     if object.respond_to?(:to_t)
       object.to_t(options).display
