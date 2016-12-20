@@ -1,7 +1,5 @@
-# 表の生成
-
+# -*- frozen_string_literal: true -*-
 require "active_support/core_ext/string"
-require "kconv"
 
 module RainTable
   def self.generate(*args, &block)
@@ -16,7 +14,6 @@ module RainTable
         :intersection => "+",
         :horizon      => "-",
         :padding      => " ",
-        :in_code      => Kconv::UTF8,
       }.merge(options)
 
       @rows = rows
@@ -29,7 +26,7 @@ module RainTable
       functions.each do |e|
         if e[:if][@rows]
           @rows = e[:convert][@rows]
-          if @options[:header].nil?
+          if @options[:header].nil? # false のときもあるため unless ではだめ
             @options[:header] = e[:header]
           end
         end
@@ -81,7 +78,7 @@ module RainTable
     end
 
     def body
-      @table_rows.collect { |row| line_str(row) }
+      @table_rows.collect { |e| line_str(e) }
     end
 
     def line_str(row)
@@ -97,20 +94,34 @@ module RainTable
     end
 
     def just(value, max_width)
-      align = (Float(value) && "right" rescue "left").to_s
-      space = " " * (max_width - width_of(value))
-      lspace = ""
-      rspace = ""
-      if align == "right"
-        lspace = space
+      s = " " * (max_width - width_of(value))
+      l = ""
+      r = ""
+      if default_align(value) == :right
+        l = s
       else
-        rspace = space
+        r = s
       end
-      [lspace, value.to_s, rspace].join # value が [] のとき to_s しないと空文字列になってしまう
+      [l, value.to_s, r].join # value が [] のとき to_s しないと空文字列になってしまう
+    end
+
+    def default_align(value)
+      Float(value) && :right rescue :left
     end
 
     def width_of(str)
-      str.to_s.kconv(Kconv::EUC, @options[:in_code]).bytesize
+      str.to_s.encode("EUC-JP", source_encoding).bytesize
+    end
+
+    def source_encoding
+      if @options[:in_code]
+        @options[:source_encoding] ||= @options[:in_code]
+        ActiveSupport::Deprecation.warn("in_code ではなく source_encoding を使ってください")
+      end
+      if @options[:source_encoding].kind_of?(Integer)
+        ActiveSupport::Deprecation.warn("kconv は使わなくなりました")
+      end
+      @options[:source_encoding] || "UTF-8"
     end
 
     def functions
@@ -163,7 +174,7 @@ end
 # >> +---+----+
 # >> | a | [] |
 # >> +---+----+
-# >> 
+# >>
 # >> +----+-------+-------------+
 # >> | id | name  | description |
 # >> +----+-------+-------------+
