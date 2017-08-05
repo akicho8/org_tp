@@ -2,7 +2,15 @@
 
   OrgTp shows ascii table like emacs org-table for easy reading.
 
-** Hash of Array
+** Install
+
+#+BEGIN_SRC shell
+gem install org_tp
+#+END_SRC
+
+** Examples
+
+*** Hash of Array
 
 #+BEGIN_SRC ruby
 tp [{id: 1, name: "alice"}, {id: 2, name: "bob"}]
@@ -14,7 +22,7 @@ tp [{id: 1, name: "alice"}, {id: 2, name: "bob"}]
 # >> |----+-------|
 #+END_SRC
 
-** Hash
+*** Hash
 
 #+BEGIN_SRC ruby
 tp({id: 1, name: "alice"})
@@ -24,7 +32,7 @@ tp({id: 1, name: "alice"})
 # >> |------+-------|
 #+END_SRC
 
-** Integer, String, Symbol
+*** Integer, String, Symbol
 
 #+BEGIN_SRC ruby
 tp 1
@@ -47,7 +55,7 @@ tp :foo
 # >> |-----|
 #+END_SRC
 
-** ActiveRecord
+*** ActiveRecord
 
 #+BEGIN_SRC ruby
 ["alice", "bob"].each {|e| User.create!(name: e) }
@@ -80,7 +88,7 @@ tp User.first
 # >> |------+-------|
 #+END_SRC
 
-** How to table as string
+*** How to table as string
 
 #+BEGIN_SRC ruby
 puts [{id: 1, name: "alice"}, {id: 2, name: "bob"}].to_t
