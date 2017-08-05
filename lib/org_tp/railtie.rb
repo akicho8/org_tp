@@ -1,12 +1,12 @@
-module RainTable
+module OrgTp
   class Railtie < Rails::Railtie
-    initializer "rain_table" do
+    initializer 'org_tp' do
       ActiveSupport.on_load(:active_record) do
-        include RainTable::ActiveRecord
+        include OrgTp::ActiveRecord
       end
 
       if defined?(Mongoid::Document)
-        Mongoid::Document.include(RainTable::ActiveRecord)
+        Mongoid::Document.include(OrgTp::ActiveRecord)
       end
     end
   end

@@ -1,9 +1,9 @@
 $LOAD_PATH << "../lib"
 require "active_record"
-require "rain_table"
+require "org_tp"
 
-ActiveRecord::Base.include(RainTable::ActiveRecord)
-ActiveRecord::Base.establish_connection(:adapter => "sqlite3", :database => ":memory:")
+ActiveRecord::Base.include(OrgTp::ActiveRecord)
+ActiveRecord::Base.establish_connection(adapter: "sqlite3", database: ":memory:")
 ActiveRecord::Migration.verbose = false
 ActiveRecord::Schema.define do
   create_table :users do |t|
@@ -14,23 +14,24 @@ end
 class User < ActiveRecord::Base
 end
 
-["alice", "bob"].each{|name| User.create!(:name => name) }
+["alice", "bob", "carol"].each { |e| User.create!(name: e) }
 
-tt User
-tt User.first
-tt User.limit(1)
-# >> +----+-------+
+tp User
+tp User.first
+tp User.limit(1)
+# >> |----+-------|
 # >> | id | name  |
-# >> +----+-------+
+# >> |----+-------|
 # >> |  1 | alice |
 # >> |  2 | bob   |
-# >> +----+-------+
-# >> +------+-------+
+# >> |  3 | carol |
+# >> |----+-------|
+# >> |------+-------|
 # >> | id   |     1 |
 # >> | name | alice |
-# >> +------+-------+
-# >> +----+-------+
+# >> |------+-------|
+# >> |----+-------|
 # >> | id | name  |
-# >> +----+-------+
+# >> |----+-------|
 # >> |  1 | alice |
-# >> +----+-------+
+# >> |----+-------|

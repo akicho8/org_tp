@@ -1,34 +1,39 @@
-# 表の生成
+# frozen_string_literal: true
+require 'active_support/core_ext/string'          # for blank?
+require 'active_support/core_ext/class/attribute' # for class_attribute
+require 'kconv'
 
-require "active_support/core_ext/string"
-require "kconv"
-
-module RainTable
+module OrgTp
   def self.generate(*args, &block)
     Generator.new(*args, &block).generate
   end
 
   class Generator
-    def initialize(rows, options = {})
-      @options = {
-        :header       => nil,
-        :vertical     => "|",
-        :intersection => "+",
-        :horizon      => "-",
-        :padding      => " ",
-        :in_code      => Kconv::UTF8,
-      }.merge(options)
+    class_attribute :default_options
+    self.default_options = {
+      header: nil,
+      vertical: '|',
+      intersection: '+',
+      intersection_both: '|',
+      horizon: '-',
+      padding: ' ',
+      in_code: Kconv::UTF8,
+    }
 
+    def initialize(rows, **options)
+      @options = default_options.merge(options)
       @rows = rows
       @column_names = nil
     end
 
     def generate
-      return "" if @rows.blank?
+      if @rows.blank?
+        return ''
+      end
 
-      functions.each do |e|
-        if e[:if][@rows]
-          @rows = e[:convert][@rows]
+      pre_processes.each do |e|
+        if e[:_case][@rows]
+          @rows = e[:process][@rows]
           if @options[:header].nil?
             @options[:header] = e[:header]
           end
@@ -45,7 +50,7 @@ module RainTable
       end
       out << body
       out << separater
-      out.flatten.join("\n") + "\n"
+      out.flatten * "\n" + "\n"
     end
 
     private
@@ -60,7 +65,7 @@ module RainTable
 
     def column_widths
       @column_widths ||= ([@column_names] + @table_rows).compact.transpose.collect do |vertical_values|
-        vertical_values.collect { |e| width_of(e) }.max
+        vertical_values.collect { |e| str_width(e) }.max
       end
     end
 
@@ -73,7 +78,7 @@ module RainTable
         @options[:horizon] * (padding.size + e + padding.size)
       }
       s = s.join(@options[:intersection])
-      [@options[:intersection], s, @options[:intersection]].join
+      [@options[:intersection_both], s, @options[:intersection_both]].join
     end
 
     def header
@@ -97,52 +102,53 @@ module RainTable
     end
 
     def just(value, max_width)
-      align = (Float(value) && "right" rescue "left").to_s
-      space = " " * (max_width - width_of(value))
-      lspace = ""
-      rspace = ""
-      if align == "right"
+      align = Float(value) && :right rescue :left
+      space = ' ' * (max_width - str_width(value))
+      lspace = ''
+      rspace = ''
+      if align == :right
         lspace = space
       else
         rspace = space
       end
-      [lspace, value.to_s, rspace].join # value が [] のとき to_s しないと空文字列になってしまう
+      # If value is `[]`,
+      # executing to_s, it becomes `[]`.
+      # not executing to_s, it becomes empty string
+      [lspace, value.to_s, rspace].join
     end
 
-    def width_of(str)
+    def str_width(str)
       str.to_s.kconv(Kconv::EUC, @options[:in_code]).bytesize
     end
 
-    def functions
+    def pre_processes
       [
         {
-          :if => -> e { e.kind_of?(Hash) },
-          :header => false,
-          :convert => -> e {
+          _case: -> e { e.kind_of?(Hash) },
+          header: false,
+          process: -> e {
             e.collect do |k, v|
-              {"(key)" => k.to_s, "(value)" => v.to_s}
+              {'(key)' => k.to_s, '(value)' => v.to_s}
             end
           },
         },
         {
-          :if => -> e { e.kind_of?(Array) && e.any?{|e|!e.kind_of?(Hash)} },
-          :header => false,
-          :convert => -> e {
+          _case: -> e { e.kind_of?(Array) && e.any? { |e| !e.kind_of?(Hash) } },
+          header: false,
+          process: -> e {
             e.collect do |e|
               if e.kind_of? Hash
                 e
               else
-                {"(array_value)" => e}
+                {'(array_value)' => e}
               end
             end
           },
         },
         {
-          :if => -> e { e.kind_of?(Array) && e.all?{|e|e.kind_of?(Hash)} },
-          :header => true,
-          :convert => -> e {
-            e
-          },
+          _case: -> e { e.kind_of?(Array) && e.all? { |e| e.kind_of?(Hash) } },
+          header: true,
+          process: -> e { e },
         },
       ]
     end
@@ -151,19 +157,19 @@ end
 
 if $0 == __FILE__
   rows = [
-    {:id => 1, :name => "alice", :description => "0123456789"},
-    {:id => 2, :name => "bob",   :description => "あいうえお"},
-    {:id => 3, :name => "carol"},
+    {id: 1, name: 'alice', description: '0123456789'},
+    {id: 2, name: 'bob',   description: 'あいうえお'},
+    {id: 3, name: 'carol'},
   ]
-  puts RainTable.generate({:a => []})
-  puts RainTable.generate([])
-  puts RainTable.generate(rows)
-  puts RainTable.generate({:a => 1, :b => 2}, :header => false)
+  print OrgTp.generate({a: []})
+  print OrgTp.generate([])
+  print OrgTp.generate(rows)
+  print OrgTp.generate({a: 1, b: 2}, header: false)
 end
 # >> +---+----+
 # >> | a | [] |
 # >> +---+----+
-# >> 
+# >>
 # >> +----+-------+-------------+
 # >> | id | name  | description |
 # >> +----+-------+-------------+

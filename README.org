@@ -1,70 +1,93 @@
-#+OPTIONS: toc:nil num:nil author:nil creator:nil \n:nil |:t
-#+OPTIONS: @:t ::t ^:t -:t f:t *:t <:t
+* OrgTp
 
-* オブジェクトを表にするライブラリ
+  OrgTp shows ascii table like emacs org-table for easy reading.
 
-  : tt [{:id => 1, :name => "alice"}, {:id => 2, :name => "bob"}]
-  : # >> +----+-------+
-  : # >> | id | name  |
-  : # >> +----+-------+
-  : # >> |  1 | alice |
-  : # >> |  2 | bob   |
-  : # >> +----+-------+
+** Hash of Array
 
-  : tt({:id => 1, :name => "alice"})
-  : # >> +------+-------+
-  : # >> | id   |     1 |
-  : # >> | name | alice |
-  : # >> +------+-------+
+#+BEGIN_SRC ruby
+tp [{id: 1, name: "alice"}, {id: 2, name: "bob"}]
+# >> |----+-------|
+# >> | id | name  |
+# >> |----+-------|
+# >> |  1 | alice |
+# >> |  2 | bob   |
+# >> |----+-------|
+#+END_SRC
 
-** あんまり意味ないけど
+** Hash
 
-  : tt 1
-  : # >> +---+
-  : # >> | 1 |
-  : # >> +---+
+#+BEGIN_SRC ruby
+tp({id: 1, name: "alice"})
+# >> |------+-------|
+# >> | id   |     1 |
+# >> | name | alice |
+# >> |------+-------|
+#+END_SRC
 
-  : tt "foo"
-  : # >> +-----+
-  : # >> | foo |
-  : # >> +-----+
+** Integer, String, Symbol
 
-  : tt :foo
-  : # >> +-----+
-  : # >> | foo |
-  : # >> +-----+
+#+BEGIN_SRC ruby
+tp 1
+# >> |---|
+# >> | 1 |
+# >> |---|
+#+END_SRC
 
-** ActiveRecord の場合ちょっと見やすくする
+#+BEGIN_SRC ruby
+tp "foo"
+# >> |-----|
+# >> | foo |
+# >> |-----|
+#+END_SRC
 
-  : ["alice", "bob"].each{|name| User.create!(:name => name) }
+#+BEGIN_SRC ruby
+tp :foo
+# >> |-----|
+# >> | foo |
+# >> |-----|
+#+END_SRC
 
-  : tt User
-  : # >> +----+-------+
-  : # >> | id | name  |
-  : # >> +----+-------+
-  : # >> |  1 | alice |
-  : # >> |  2 | bob   |
-  : # >> +----+-------+
+** ActiveRecord
 
-  : tt User.limit(1)
-  : # >> +----+-------+
-  : # >> | id | name  |
-  : # >> +----+-------+
-  : # >> |  1 | alice |
-  : # >> +----+-------+
+#+BEGIN_SRC ruby
+["alice", "bob"].each {|e| User.create!(name: e) }
+#+END_SRC
 
-  : tt User.first
-  : # >> +------+-------+
-  : # >> | id   |     1 |
-  : # >> | name | alice |
-  : # >> +------+-------+
+#+BEGIN_SRC ruby
+tp User
+# >> |----+-------|
+# >> | id | name  |
+# >> |----+-------|
+# >> |  1 | alice |
+# >> |  2 | bob   |
+# >> |----+-------|
+#+END_SRC
 
-** 文字列にする場合
+#+BEGIN_SRC ruby
+tp User.limit(1)
+# >> |----+-------|
+# >> | id | name  |
+# >> |----+-------|
+# >> |  1 | alice |
+# >> |----+-------|
+#+END_SRC
 
-   : puts [{:id => 1, :name => "alice"}, {:id => 2, :name => "bob"}].to_t
-   : # >> +----+-------+
-   : # >> | id | name  |
-   : # >> +----+-------+
-   : # >> |  1 | alice |
-   : # >> |  2 | bob   |
-   : # >> +----+-------+
+#+BEGIN_SRC ruby
+tp User.first
+# >> |------+-------|
+# >> | id   |     1 |
+# >> | name | alice |
+# >> |------+-------|
+#+END_SRC
+
+** How to table as string
+
+#+BEGIN_SRC ruby
+puts [{id: 1, name: "alice"}, {id: 2, name: "bob"}].to_t
+# >> |----+-------|
+# >> | id | name  |
+# >> |----+-------|
+# >> |  1 | alice |
+# >> |  2 | bob   |
+# >> |----+-------|
+#+END_SRC
