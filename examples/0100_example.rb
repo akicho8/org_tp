@@ -5,9 +5,9 @@ tp 1
 tp "foo"
 tp :foo
 tp [:a, :b]
-tp({:id => 1, :name => "alice"})
-tp [{:id => 1, :name => "alice"}, {:id => 2, :name => "bob"}]
-puts [{:id => 1, :name => "alice"}, {:id => 2, :name => "bob"}].to_t
+tp({id: 1, name: "alice"})
+tp [{id: 1, name: "alice"}, {id: 2, name: "bob"}]
+puts [{id: 1, name: "alice"}, {id: 2, name: "bob"}].to_t
 puts [{"a" => ["a"]}].to_t
 puts [{"a" => {"a" => 1}}].to_t
 # >> |---|
