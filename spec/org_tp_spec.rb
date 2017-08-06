@@ -9,7 +9,7 @@ describe OrgTp do
     ]
   end
 
-  it "空の場合" do
+  it "empty array" do
     OrgTp.generate([]).should == ""
   end
 
@@ -25,7 +25,7 @@ describe OrgTp do
 EOT
   end
 
-  it "ヘッダーなし" do
+  it "header: false" do
     OrgTp.generate(@rows, header: false).should == <<~EOT
 |---+-------+------------|
 | 1 | alice | 0123456789 |
@@ -35,7 +35,7 @@ EOT
 EOT
   end
 
-  it "パディングなし" do
+  it "padding disable" do
     OrgTp.generate(@rows, padding: "").should == <<~EOT
 |--+-----+-----------|
 |id|name |description|
@@ -47,8 +47,8 @@ EOT
 EOT
   end
 
-  describe "組み込み" do
-    it "ハッシュの配列はいままで通り" do
+  describe "various to_t" do
+    it "hash array" do
       [{a: 1}].to_t.should == <<~EOT
 |---|
 | a |
@@ -58,7 +58,7 @@ EOT
 EOT
     end
 
-    it "ハッシュのみの場合は縦に表示" do
+    it "Hash" do
       {a: 1}.to_t.should == <<~EOT
 |---+---|
 | a | 1 |
@@ -66,7 +66,7 @@ EOT
 EOT
     end
 
-    it "文字列の配列は縦に並べて表示" do
+    it "String Array" do
       ["a", "b"].to_t.should == <<~EOT
 |---|
 | a |
@@ -75,7 +75,7 @@ EOT
 EOT
     end
 
-    it "その他" do
+    it "Others" do
       1.to_t.should be_present
       "1".to_t.should be_present
       Module.new.should be_present
@@ -86,7 +86,7 @@ EOT
 EOT
     end
 
-    it "ハッシュの配列で値が配列のとき幅がおかしくならない" do
+    it "Array of hashes and width is correct even when value is array" do
       OrgTp.generate([{"a" => ["a"]}]).should == <<~EOT
 |-------|
 | a     |
