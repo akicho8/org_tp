@@ -2,10 +2,20 @@
 
   OrgTp shows ascii table like emacs org-table for easy reading.
 
-** Install
+** Installation
+
+Install as a standalone gem
 
 #+BEGIN_SRC shell
-gem install org_tp
+$ gem install org_tp
+#+END_SRC
+
+Or install within application
+
+In your Gemfile: gem "org_tp"
+
+#+BEGIN_SRC shell
+$ bundle install
 #+END_SRC
 
 ** Examples
