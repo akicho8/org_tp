@@ -44,10 +44,10 @@ tp({id: 1, name: "alice"})
 *** Array
 
 #+BEGIN_SRC ruby
-tp [:alice, :bobo]
+tp [:alice, :bob]
 # >> |-------|
 # >> | alice |
-# >> | bobo  |
+# >> | bob   |
 # >> |-------|
 #+END_SRC
 
