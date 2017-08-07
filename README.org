@@ -10,11 +10,10 @@ Install as a standalone gem
 $ gem install org_tp
 #+END_SRC
 
-Or install within application
-
-In your Gemfile: gem "org_tp"
+Or install within application using Gemfile.
 
 #+BEGIN_SRC shell
+$ bundle add org_tp
 $ bundle install
 #+END_SRC
 
