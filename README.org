@@ -10,7 +10,7 @@ gem install org_tp
 
 ** Examples
 
-*** Hash of Array
+*** Array of hash
 
 #+BEGIN_SRC ruby
 tp [{id: 1, name: "alice"}, {id: 2, name: "bob"}]
@@ -30,6 +30,16 @@ tp({id: 1, name: "alice"})
 # >> | id   |     1 |
 # >> | name | alice |
 # >> |------+-------|
+#+END_SRC
+
+*** Array
+
+#+BEGIN_SRC ruby
+tp [:alice, :bobo]
+# >> |-------|
+# >> | alice |
+# >> | bobo  |
+# >> |-------|
 #+END_SRC
 
 *** Integer, String, Symbol
@@ -100,7 +110,7 @@ tp ActiveRecord::Base.connection.select_all("SELECT * FROM users")
 # >> |----+-------|
 #+END_SRC
 
-*** How to table as string
+** How to table as string
 
 #+BEGIN_SRC ruby
 puts [{id: 1, name: "alice"}, {id: 2, name: "bob"}].to_t
@@ -112,7 +122,21 @@ puts [{id: 1, name: "alice"}, {id: 2, name: "bob"}].to_t
 # >> |----+-------|
 #+END_SRC
 
-*** Global Options
+** Options
+
+#+BEGIN_SRC ruby
+tp 1
+# >> |---|
+# >> | 1 |
+# >> |---|
+
+tp 1, intersection_both: "+"
+# >> +---+
+# >> | 1 |
+# >> +---+
+#+END_SRC
+
+** Global Options
 
 #+BEGIN_SRC ruby
 tp OrgTp::Generator.default_options
