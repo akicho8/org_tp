@@ -34,5 +34,14 @@ EOT
 | name | 0 |
 |------+---|
 EOT
+
+    ActiveRecord::Base.connection.select_all("select * from users").to_t.should == <<~EOT
+|----+------|
+| id | name |
+|----+------|
+|  1 |    0 |
+|  2 |    1 |
+|----+------|
+EOT
   end
 end

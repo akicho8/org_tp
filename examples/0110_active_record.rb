@@ -3,6 +3,7 @@ require "active_record"
 require "org_tp"
 
 ActiveRecord::Base.include(OrgTp::ActiveRecord)
+
 ActiveRecord::Base.establish_connection(adapter: "sqlite3", database: ":memory:")
 ActiveRecord::Migration.verbose = false
 ActiveRecord::Schema.define do
@@ -19,6 +20,7 @@ end
 tp User
 tp User.first
 tp User.limit(1)
+tp ActiveRecord::Base.connection.select_all("SELECT * FROM users")
 # >> |----+-------|
 # >> | id | name  |
 # >> |----+-------|
@@ -34,4 +36,11 @@ tp User.limit(1)
 # >> | id | name  |
 # >> |----+-------|
 # >> |  1 | alice |
+# >> |----+-------|
+# >> |----+-------|
+# >> | id | name  |
+# >> |----+-------|
+# >> |  1 | alice |
+# >> |  2 | bob   |
+# >> |  3 | carol |
 # >> |----+-------|

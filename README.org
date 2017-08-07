@@ -55,7 +55,7 @@ tp :foo
 # >> |-----|
 #+END_SRC
 
-*** ActiveRecord
+*** ActiveRecord and Mongoid
 
 #+BEGIN_SRC ruby
 ["alice", "bob"].each {|e| User.create!(name: e) }
@@ -88,6 +88,18 @@ tp User.first
 # >> |------+-------|
 #+END_SRC
 
+**** ActiveRecord::Result
+
+#+BEGIN_SRC ruby
+tp ActiveRecord::Base.connection.select_all("SELECT * FROM users")
+# >> |----+-------|
+# >> | id | name  |
+# >> |----+-------|
+# >> |  1 | alice |
+# >> |  2 | bob   |
+# >> |----+-------|
+#+END_SRC
+
 *** How to table as string
 
 #+BEGIN_SRC ruby
@@ -98,4 +110,31 @@ puts [{id: 1, name: "alice"}, {id: 2, name: "bob"}].to_t
 # >> |  1 | alice |
 # >> |  2 | bob   |
 # >> |----+-------|
+#+END_SRC
+
+*** Global Options
+
+#+BEGIN_SRC ruby
+tp OrgTp::Generator.default_options
+# >> |-------------------+-------|
+# >> | header            |       |
+# >> | vertical          | |     |
+# >> | intersection      | +     |
+# >> | intersection_both | |     |
+# >> | horizon           | -     |
+# >> | padding           |       |
+# >> | in_code           | UTF-8 |
+# >> |-------------------+-------|
+
+tp 1
+# >> |---|
+# >> | 1 |
+# >> |---|
+
+OrgTp::Generator.default_options[:intersection_both] = "+"
+
+tp 1
+# >> +---+
+# >> | 1 |
+# >> +---+
 #+END_SRC
