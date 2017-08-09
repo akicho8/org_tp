@@ -1,10 +1,10 @@
-$LOAD_PATH << "../lib"
-require "active_record"
-require "org_tp"
+$LOAD_PATH << '../lib'
+require 'active_record'
+require 'org_tp'
 
 ActiveRecord::Base.include(OrgTp::ActiveRecord)
 
-ActiveRecord::Base.establish_connection(adapter: "sqlite3", database: ":memory:")
+ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: ':memory:')
 ActiveRecord::Migration.verbose = false
 ActiveRecord::Schema.define do
   create_table :users do |t|
@@ -15,12 +15,12 @@ end
 class User < ActiveRecord::Base
 end
 
-["alice", "bob", "carol"].each { |e| User.create!(name: e) }
+['alice', 'bob', 'carol'].each { |e| User.create!(name: e) }
 
 tp User
 tp User.first
 tp User.limit(1)
-tp ActiveRecord::Base.connection.select_all("SELECT * FROM users")
+tp ActiveRecord::Base.connection.select_all('SELECT * FROM users')
 # >> |----+-------|
 # >> | id | name  |
 # >> |----+-------|

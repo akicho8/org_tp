@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.author       = "akicho8"
   spec.email        = "akicho8@gmail.com"
   spec.homepage     = "https://github.com/akicho8/org_tp"
-  spec.summary      = "OrgTp shows ascii table like emacs org-table for easy reading."
-  spec.description  = "OrgTp shows ascii table like emacs org-table for easy reading."
+  spec.summary      = "OrgTp shows text table like emacs org-table for easy reading."
+  spec.description  = "OrgTp shows text table like emacs org-table for easy reading."
   spec.platform     = Gem::Platform::RUBY
 
   spec.files         = `git ls-files`.split($/)

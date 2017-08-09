@@ -1,10 +1,10 @@
-$LOAD_PATH << "../lib"
-require "active_record"
-require "mongoid" # !> method redefined; discarding old as_json
-require "org_tp"
+$LOAD_PATH << '../lib'
+require 'active_record'
+require 'mongoid' # !> method redefined; discarding old as_json
+require 'org_tp'
 
 Mongo::Logger.logger.level = Logger::INFO
-Mongoid::Config.connect_to("test")
+Mongoid::Config.connect_to('test')
 Mongoid::Clients.default.database.drop
 
 class User
@@ -12,7 +12,7 @@ class User
   field :name, type: String
 end
 
-["alice", "bob", "carol"].each { |e| User.create!(name: e) } # !> method redefined; discarding old text_search
+['alice', 'bob', 'carol'].each { |e| User.create!(name: e) } # !> method redefined; discarding old text_search
 
 tp User
 tp User.first

@@ -1,10 +1,10 @@
-$LOAD_PATH << "../lib"
-require "org_tp"
+$LOAD_PATH << '../lib'
+require 'org_tp'
 
-tp 1, intersection_both: "+"
+tp 1, intersection_both: '+'
 
 tp OrgTp::Generator.default_options
-OrgTp::Generator.default_options.update(intersection_both: "+")
+OrgTp::Generator.default_options.update(intersection_both: '+')
 tp OrgTp::Generator.default_options
 
 # >> +---+

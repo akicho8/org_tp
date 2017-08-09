@@ -1,6 +1,6 @@
 * OrgTp
 
-  OrgTp shows ascii table like emacs org-table for easy reading.
+  OrgTp shows text table like emacs org-table for easy reading.
 
 ** Installation
 
@@ -10,7 +10,7 @@ Install as a standalone gem
 $ gem install org_tp
 #+END_SRC
 
-Or install within application using Gemfile.
+Or install within application using Gemfile
 
 #+BEGIN_SRC shell
 $ bundle add org_tp
@@ -22,7 +22,7 @@ $ bundle install
 *** Array of hash
 
 #+BEGIN_SRC ruby
-tp [{id: 1, name: "alice"}, {id: 2, name: "bob"}]
+tp [{id: 1, name: 'alice'}, {id: 2, name: 'bob'}]
 # >> |----+-------|
 # >> | id | name  |
 # >> |----+-------|
@@ -34,7 +34,7 @@ tp [{id: 1, name: "alice"}, {id: 2, name: "bob"}]
 *** Hash
 
 #+BEGIN_SRC ruby
-tp({id: 1, name: "alice"})
+tp({id: 1, name: 'alice'})
 # >> |------+-------|
 # >> | id   |     1 |
 # >> | name | alice |
@@ -61,7 +61,7 @@ tp 1
 #+END_SRC
 
 #+BEGIN_SRC ruby
-tp "foo"
+tp 'foo'
 # >> |-----|
 # >> | foo |
 # >> |-----|
@@ -74,10 +74,10 @@ tp :foo
 # >> |-----|
 #+END_SRC
 
-*** ActiveRecord and Mongoid
+*** ActiveRecord or Mongoid
 
 #+BEGIN_SRC ruby
-["alice", "bob"].each {|e| User.create!(name: e) }
+['alice', 'bob'].each {|e| User.create!(name: e) }
 #+END_SRC
 
 #+BEGIN_SRC ruby
@@ -110,7 +110,7 @@ tp User.first
 **** ActiveRecord::Result
 
 #+BEGIN_SRC ruby
-tp ActiveRecord::Base.connection.select_all("SELECT * FROM users")
+tp ActiveRecord::Base.connection.select_all('SELECT * FROM users')
 # >> |----+-------|
 # >> | id | name  |
 # >> |----+-------|
@@ -122,7 +122,7 @@ tp ActiveRecord::Base.connection.select_all("SELECT * FROM users")
 ** How to table as string
 
 #+BEGIN_SRC ruby
-puts [{id: 1, name: "alice"}, {id: 2, name: "bob"}].to_t
+puts [{id: 1, name: 'alice'}, {id: 2, name: 'bob'}].to_t
 # >> |----+-------|
 # >> | id | name  |
 # >> |----+-------|
@@ -139,7 +139,7 @@ tp 1
 # >> | 1 |
 # >> |---|
 
-tp 1, intersection_both: "+"
+tp 1, intersection_both: '+'
 # >> +---+
 # >> | 1 |
 # >> +---+
@@ -164,10 +164,22 @@ tp 1
 # >> | 1 |
 # >> |---|
 
-OrgTp::Generator.default_options[:intersection_both] = "+"
+OrgTp::Generator.default_options[:intersection_both] = '+'
 
 tp 1
 # >> +---+
 # >> | 1 |
 # >> +---+
+#+END_SRC
+
+** When used in conjunction with Tapp
+
+#+BEGIN_SRC ruby
+require 'tapp'
+require 'org_tp'
+
+1.tapp(:tp) + 2
+# >> |---|
+# >> | 1 |
+# >> |---|
 #+END_SRC

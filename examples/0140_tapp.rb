@@ -1,8 +1,9 @@
-$LOAD_PATH << "../lib"
-require "tapp"
-require "org_tp"
-require "rbconfig"
+$LOAD_PATH << '../lib'
+require 'tapp'
+require 'org_tp'
 
-tp RbConfig::CONFIG             # =>
-
-
+1.tapp(:tp) + 2       # => 3
+ # !> `*' interpreted as argument prefix
+# >> |---|
+# >> | 1 |
+# >> |---|
