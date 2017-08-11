@@ -1,19 +1,19 @@
-require_relative "spec_helper"
+require_relative 'spec_helper'
 
 describe OrgTp do
   before do
     @rows = [
-      {id: 1, name: "alice", description: "0123456789"},
-      {id: 2, name: "bob",   description: "あいうえお"},
-      {id: 3, name: "bob"},
+      {id: 1, name: 'alice', description: '0123456789'},
+      {id: 2, name: 'bob',   description: 'あいうえお'},
+      {id: 3, name: 'bob'},
     ]
   end
 
-  it "empty array" do
-    OrgTp.generate([]).should == ""
+  it 'empty array' do
+    OrgTp.generate([]).should == ''
   end
 
-  it "フォーマット指定なし" do
+  it 'フォーマット指定なし' do
     OrgTp.generate(@rows).should == <<~EOT
 |----+-------+-------------|
 | id | name  | description |
@@ -25,7 +25,7 @@ describe OrgTp do
 EOT
   end
 
-  it "header: false" do
+  it 'header: false' do
     OrgTp.generate(@rows, header: false).should == <<~EOT
 |---+-------+------------|
 | 1 | alice | 0123456789 |
@@ -35,8 +35,8 @@ EOT
 EOT
   end
 
-  it "padding disable" do
-    OrgTp.generate(@rows, padding: "").should == <<~EOT
+  it 'padding disable' do
+    OrgTp.generate(@rows, padding: '').should == <<~EOT
 |--+-----+-----------|
 |id|name |description|
 |--+-----+-----------|
@@ -47,8 +47,8 @@ EOT
 EOT
   end
 
-  describe "various to_t" do
-    it "hash array" do
+  describe 'various to_t' do
+    it 'hash array' do
       [{a: 1}].to_t.should == <<~EOT
 |---|
 | a |
@@ -58,7 +58,7 @@ EOT
 EOT
     end
 
-    it "Hash" do
+    it 'Hash' do
       {a: 1}.to_t.should == <<~EOT
 |---+---|
 | a | 1 |
@@ -66,8 +66,8 @@ EOT
 EOT
     end
 
-    it "String Array" do
-      ["a", "b"].to_t.should == <<~EOT
+    it 'String Array' do
+      ['a', 'b'].to_t.should == <<~EOT
 |---|
 | a |
 | b |
@@ -75,9 +75,9 @@ EOT
 EOT
     end
 
-    it "Others" do
+    it 'Others' do
       1.to_t.should be_present
-      "1".to_t.should be_present
+      '1'.to_t.should be_present
       Module.new.should be_present
       {[:a] => []}.to_t.should == <<~EOT
 |------+----|
@@ -86,8 +86,8 @@ EOT
 EOT
     end
 
-    it "Array of hashes and width is correct even when value is array" do
-      OrgTp.generate([{"a" => ["a"]}]).should == <<~EOT
+    it 'Array of hashes and width is correct even when value is array' do
+      OrgTp.generate([{'a' => ['a']}]).should == <<~EOT
 |-------|
 | a     |
 |-------|

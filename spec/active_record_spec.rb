@@ -1,8 +1,8 @@
-require_relative "spec_helper"
-require "active_record"
+require_relative 'spec_helper'
+require 'active_record'
 
 ActiveRecord::Base.send(:include, OrgTp::ActiveRecord)
-ActiveRecord::Base.establish_connection(:adapter => "sqlite3", :database => ":memory:")
+ActiveRecord::Base.establish_connection(:adapter => 'sqlite3', :database => ':memory:')
 ActiveRecord::Migration.verbose = false
 
 ActiveRecord::Schema.define do
@@ -35,7 +35,7 @@ EOT
 |------+---|
 EOT
 
-    ActiveRecord::Base.connection.select_all("select * from users").to_t.should == <<~EOT
+    ActiveRecord::Base.connection.select_all('select * from users').to_t.should == <<~EOT
 |----+------|
 | id | name |
 |----+------|
