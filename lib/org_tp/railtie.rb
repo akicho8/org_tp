@@ -4,7 +4,7 @@ module OrgTp
       ActiveSupport.on_load(:active_record) do
         include OrgTp::ActiveRecord
 
-        ActiveRecord::Result.class_eval do
+        ::ActiveRecord::Result.class_eval do
           def to_t(**options)
             OrgTp.generate(collect(&:to_h), options)
           end
