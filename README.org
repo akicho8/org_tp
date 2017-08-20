@@ -77,7 +77,7 @@ tp :foo
 *** ActiveRecord or Mongoid
 
 #+BEGIN_SRC ruby
-['alice', 'bob'].each {|e| User.create!(name: e) }
+['alice', 'bob'].each { |e| User.create!(name: e) }
 #+END_SRC
 
 #+BEGIN_SRC ruby
@@ -121,6 +121,8 @@ tp ActiveRecord::Base.connection.select_all('SELECT * FROM users')
 
 ** How to table as string
 
+Use to_t method.
+
 #+BEGIN_SRC ruby
 puts [{id: 1, name: 'alice'}, {id: 2, name: 'bob'}].to_t
 # >> |----+-------|
@@ -132,6 +134,8 @@ puts [{id: 1, name: 'alice'}, {id: 2, name: 'bob'}].to_t
 #+END_SRC
 
 ** Options
+
+Pass as the second argument to tp or the first argument to to_t.
 
 #+BEGIN_SRC ruby
 tp 1
