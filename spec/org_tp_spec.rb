@@ -13,7 +13,7 @@ describe OrgTp do
     OrgTp.generate([]).should == ''
   end
 
-  it 'フォーマット指定なし' do
+  it 'default' do
     OrgTp.generate(@rows).should == <<~EOT
 |----+-------+-------------|
 | id | name  | description |

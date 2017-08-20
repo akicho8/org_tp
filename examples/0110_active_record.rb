@@ -2,8 +2,6 @@ $LOAD_PATH << '../lib'
 require 'active_record'
 require 'org_tp'
 
-ActiveRecord::Base.include(OrgTp::ActiveRecord)
-
 ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: ':memory:')
 ActiveRecord::Migration.verbose = false
 ActiveRecord::Schema.define do
