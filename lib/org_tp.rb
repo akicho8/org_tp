@@ -1,5 +1,5 @@
 require 'org_tp/version'
-require 'org_tp/org_tp'
+require 'org_tp/generator'
 require 'org_tp/core_ext'
 
 if defined?(Rails)
