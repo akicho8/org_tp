@@ -6,13 +6,13 @@
 
 Install as a standalone gem
 
-#+BEGIN_SRC shell
+#+BEGIN_SRC shell-script
 $ gem install org_tp
 #+END_SRC
 
 Or install within application using Gemfile
 
-#+BEGIN_SRC shell
+#+BEGIN_SRC shell-script
 $ bundle add org_tp
 $ bundle install
 #+END_SRC
