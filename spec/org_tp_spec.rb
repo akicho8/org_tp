@@ -47,6 +47,16 @@ EOT
 EOT
   end
 
+  it 'markdown format' do
+    OrgTp.generate(@rows, intersection: '|', cover: false).should == <<~EOT
+| id | name  | description |
+|----|-------|-------------|
+|  1 | alice |  0123456789 |
+|  2 | bob   | あいうえお  |
+|  3 | bob   |             |
+EOT
+  end
+
   describe 'various to_t' do
     it 'hash array' do
       [{a: 1}].to_t.should == <<~EOT

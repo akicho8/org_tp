@@ -12,6 +12,7 @@ module OrgTp
     class_attribute :default_options
     self.default_options = {
       header: nil,
+      cover: true,
       vertical: '|',
       intersection: '+',
       intersection_both: '|',
@@ -43,13 +44,17 @@ module OrgTp
       table_rows_build
 
       out = []
-      out << separater
+      if @options[:cover]
+        out << separater
+      end
       if @column_names
         out << header
         out << separater
       end
       out << body
-      out << separater
+      if @options[:cover]
+        out << separater
+      end
       out.flatten * "\n" + "\n"
     end
 
