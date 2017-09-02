@@ -105,5 +105,16 @@ EOT
 |-------|
 EOT
     end
+
+    it 'Array containing Hash and others' do
+      OrgTp.generate([["a", "b"], {"c" => "d"}]).should == <<~EOT
+|-----------------+---|
+| (array_element) | c |
+|-----------------+---|
+| ["a", "b"]      |   |
+|                 | d |
+|-----------------+---|
+EOT
+    end
   end
 end

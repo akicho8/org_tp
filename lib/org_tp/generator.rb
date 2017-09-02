@@ -128,6 +128,7 @@ module OrgTp
 
     def pre_processes
       [
+        # Hash
         {
           _case: -> e { e.kind_of?(Hash) },
           header: false,
@@ -137,24 +138,40 @@ module OrgTp
             end
           },
         },
+
+        # Array of Hash
         {
-          _case: -> e { e.kind_of?(Array) && e.any? { |e| !e.kind_of?(Hash) } },
+          _case: -> e { e.kind_of?(Array) && e.all? { |e| e.kind_of?(Hash) } }, # !> shadowing outer local variable - e
+          header: true,
+          process: -> e { e },
+        },
+
+        # Array excluding Hash
+        {
+          _case: -> e { e.kind_of?(Array) && e.none? { |e| e.kind_of?(Hash) } }, # !> shadowing outer local variable - e
           header: false,
           process: -> e {
-            e.collect do |e|
+            e.collect do |e| # !> shadowing outer local variable - e
+              {'(array_element)' => e}
+            end
+          },
+        },
+
+        # Array containing Hash and others
+        {
+          _case: -> e { e.kind_of?(Array) && e.any? { |e| !e.kind_of?(Hash) } }, # !> shadowing outer local variable - e
+          header: true,
+          process: -> e {
+            e.collect do |e| # !> shadowing outer local variable - e
               if e.kind_of? Hash
                 e
               else
-                {'(array_value)' => e}
+                {'(array_element)' => e}
               end
             end
           },
         },
-        {
-          _case: -> e { e.kind_of?(Array) && e.all? { |e| e.kind_of?(Hash) } },
-          header: true,
-          process: -> e { e },
-        },
+
       ]
     end
   end
@@ -170,19 +187,30 @@ if $0 == __FILE__
   print OrgTp.generate([])
   print OrgTp.generate(rows)
   print OrgTp.generate({a: 1, b: 2}, header: false)
+  print OrgTp.generate([["a", "b"], ["c", "d"]])
+  print OrgTp.generate([["a", "b"], {"c" => "d"}])
 end
-# >> +---+----+
+# >> |---+----|
 # >> | a | [] |
-# >> +---+----+
-# >>
-# >> +----+-------+-------------+
+# >> |---+----|
+# >> |----+-------+-------------|
 # >> | id | name  | description |
-# >> +----+-------+-------------+
+# >> |----+-------+-------------|
 # >> |  1 | alice |  0123456789 |
 # >> |  2 | bob   | あいうえお  |
 # >> |  3 | carol |             |
-# >> +----+-------+-------------+
-# >> +---+---+
+# >> |----+-------+-------------|
+# >> |---+---|
 # >> | a | 1 |
 # >> | b | 2 |
-# >> +---+---+
+# >> |---+---|
+# >> |------------|
+# >> | ["a", "b"] |
+# >> | ["c", "d"] |
+# >> |------------|
+# >> |-----------------+---|
+# >> | (array_element) | c |
+# >> |-----------------+---|
+# >> | ["a", "b"]      |   |
+# >> |                 | d |
+# >> |-----------------+---|
