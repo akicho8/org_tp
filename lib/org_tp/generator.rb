@@ -4,13 +4,8 @@ require 'active_support/core_ext/class/attribute' # for class_attribute
 require 'kconv'
 
 module OrgTp
-  def self.generate(*args, &block)
-    Generator.new(*args, &block).generate
-  end
-
-  class Generator
-    class_attribute :default_options
-    self.default_options = {
+  mattr_accessor :default_options do
+    {
       header: nil,
       cover: true,
       vertical: '|',
@@ -20,9 +15,20 @@ module OrgTp
       padding: ' ',
       in_code: Kconv::UTF8,
     }
+  end
+
+  def self.generate(*args, &block)
+    Generator.new(*args, &block).generate
+  end
+
+  class Generator
+    def self.default_options
+      warn "[DEPRECATED] `OrgTp::Generator.default_options' is deprecated. Use `OrgTp.default_options' instead."
+      OrgTp.default_options
+    end
 
     def initialize(rows, **options)
-      @options = default_options.merge(options)
+      @options = OrgTp.default_options.merge(options)
       @rows = rows
       @column_names = nil
     end

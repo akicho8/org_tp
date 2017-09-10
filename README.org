@@ -162,7 +162,7 @@ tp [{id: 1, name: 'alice'}, {id: 2, name: 'bob'}], intersection: '|', cover: fal
 ** Global Options
 
 #+BEGIN_SRC ruby
-tp OrgTp::Generator.default_options
+tp OrgTp.default_options
 # >> |-------------------+-------|
 # >> | header            |       |
 # >> | vertical          | |     |
@@ -178,7 +178,7 @@ tp 1
 # >> | 1 |
 # >> |---|
 
-OrgTp::Generator.default_options[:intersection_both] = '+'
+OrgTp.default_options[:intersection_both] = '+'
 
 tp 1
 # >> +---+

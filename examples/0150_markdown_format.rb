@@ -15,7 +15,7 @@ array.to_t(intersection: '|', cover: false) # => "| id | name  |\n|----|-------|
 puts
 
 # set global options
-OrgTp::Generator.default_options.update(intersection: '|', cover: false)
+OrgTp.default_options.update(intersection: '|', cover: false)
 tp array
 # >> | id | name  |
 # >> |----|-------|
