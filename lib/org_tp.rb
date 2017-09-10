@@ -31,4 +31,8 @@ if defined?(Tapp)
 
     register :tp, Tp
   end
+
+  Tapp.configure do |config|
+    config.default_printer = :tp
+  end
 end

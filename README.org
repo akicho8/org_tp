@@ -192,8 +192,11 @@ tp 1
 require 'tapp'
 require 'org_tp'
 
-1.tapp(:tp) + 2
-# >> |---|
-# >> | 1 |
-# >> |---|
+"Hello".reverse.tapp.reverse.tapp
+# >> |-------|
+# >> | olleH |
+# >> |-------|
+# >> |-------|
+# >> | Hello |
+# >> |-------|
 #+END_SRC
