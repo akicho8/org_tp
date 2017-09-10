@@ -141,17 +141,17 @@ module OrgTp
 
         # Array of Hash
         {
-          _case: -> e { e.kind_of?(Array) && e.all? { |e| e.kind_of?(Hash) } }, # !> shadowing outer local variable - e
+          _case: -> e { e.kind_of?(Array) && e.all? { |e| e.kind_of?(Hash) } },
           header: true,
           process: -> e { e },
         },
 
         # Array excluding Hash
         {
-          _case: -> e { e.kind_of?(Array) && e.none? { |e| e.kind_of?(Hash) } }, # !> shadowing outer local variable - e
+          _case: -> e { e.kind_of?(Array) && e.none? { |e| e.kind_of?(Hash) } },
           header: false,
           process: -> e {
-            e.collect do |e| # !> shadowing outer local variable - e
+            e.collect do |e|
               {'(array_element)' => e}
             end
           },
@@ -159,10 +159,10 @@ module OrgTp
 
         # Array containing Hash and others
         {
-          _case: -> e { e.kind_of?(Array) && e.any? { |e| !e.kind_of?(Hash) } }, # !> shadowing outer local variable - e
+          _case: -> e { e.kind_of?(Array) && e.any? { |e| !e.kind_of?(Hash) } },
           header: true,
           process: -> e {
-            e.collect do |e| # !> shadowing outer local variable - e
+            e.collect do |e|
               if e.kind_of? Hash
                 e
               else
