@@ -18,10 +18,12 @@ Kernel.class_eval do
   private
 
   def tp(object, **options)
-    if object.respond_to?(:to_t)
-      object.to_t(options).display
-    else
-      OrgTp.generate([{object.class.name => object}], {header: false}.merge(options)).display
+    object.tap do
+      if object.respond_to?(:to_t)
+        object.to_t(options).display
+      else
+        OrgTp.generate([{object.class.name => object}], {header: false}.merge(options)).display
+      end
     end
   end
 end
