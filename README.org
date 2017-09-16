@@ -157,7 +157,15 @@ tp [{id: 1, name: 'alice'}, {id: 2, name: 'bob'}], intersection: '|', cover: fal
 # >> |----|-------|
 # >> |  1 | alice |
 # >> |  2 | bob   |
+
+tp [{id: 1, name: 'alice'}, {id: 2, name: 'bob'}], markdown: true
+# >> | id | name  |
+# >> |----|-------|
+# >> |  1 | alice |
+# >> |  2 | bob   |
 #+END_SRC
+
+`markdown: true` has the same meaning as `intersection: '|', cover: false`
 
 ** Global Options
 

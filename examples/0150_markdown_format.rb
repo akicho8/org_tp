@@ -17,11 +17,34 @@ puts
 # set global options
 OrgTp.default_options.update(intersection: '|', cover: false)
 tp array
+
+######################################## markdown option
+
+# tp with options
+tp array, markdown: true
+
+# to_t with options
+array.to_t(markdown: true) # => "| id | name  |\n|----|-------|\n|  1 | alice |\n|  2 | bob   |\n"
+
+puts
+ # !> `*' interpreted as argument prefix
+# set global options
+OrgTp.default_options.update(markdown: true)
+tp array
 # >> | id | name  |
 # >> |----|-------|
 # >> |  1 | alice |
 # >> |  2 | bob   |
-# >>
+# >> 
+# >> | id | name  |
+# >> |----|-------|
+# >> |  1 | alice |
+# >> |  2 | bob   |
+# >> | id | name  |
+# >> |----|-------|
+# >> |  1 | alice |
+# >> |  2 | bob   |
+# >> 
 # >> | id | name  |
 # >> |----|-------|
 # >> |  1 | alice |

@@ -55,6 +55,14 @@ EOT
 |  2 | bob   | あいうえお  |
 |  3 | bob   |             |
 EOT
+
+    OrgTp.generate(@rows, markdown: true).should == <<~EOT
+| id | name  | description |
+|----|-------|-------------|
+|  1 | alice |  0123456789 |
+|  2 | bob   | あいうえお  |
+|  3 | bob   |             |
+EOT
   end
 
   describe 'various to_t' do

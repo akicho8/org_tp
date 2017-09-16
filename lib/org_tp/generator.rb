@@ -14,6 +14,7 @@ module OrgTp
       horizon: '-',
       padding: ' ',
       in_code: Kconv::UTF8,
+      markdown: false,
     }
   end
 
@@ -29,6 +30,12 @@ module OrgTp
 
     def initialize(rows, **options)
       @options = OrgTp.default_options.merge(options)
+
+      if @options[:markdown]
+        @options[:intersection] = '|'
+        @options[:cover] = false
+      end
+
       @rows = rows
       @column_names = nil
     end
