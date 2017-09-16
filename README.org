@@ -151,13 +151,9 @@ tp 1, intersection_both: '+'
 
 *** Markdown format example
 
-#+BEGIN_SRC ruby
-tp [{id: 1, name: 'alice'}, {id: 2, name: 'bob'}], intersection: '|', cover: false
-# >> | id | name  |
-# >> |----|-------|
-# >> |  1 | alice |
-# >> |  2 | bob   |
+`markdown: true` has the same meaning as `intersection: '|', cover: false`
 
+#+BEGIN_SRC ruby
 tp [{id: 1, name: 'alice'}, {id: 2, name: 'bob'}], markdown: true
 # >> | id | name  |
 # >> |----|-------|
@@ -165,14 +161,22 @@ tp [{id: 1, name: 'alice'}, {id: 2, name: 'bob'}], markdown: true
 # >> |  2 | bob   |
 #+END_SRC
 
-`markdown: true` has the same meaning as `intersection: '|', cover: false`
+#+BEGIN_SRC ruby
+tp [{id: 1, name: 'alice'}, {id: 2, name: 'bob'}], intersection: '|', cover: false
+# >> | id | name  |
+# >> |----|-------|
+# >> |  1 | alice |
+# >> |  2 | bob   |
+#+END_SRC
 
 ** Global Options
 
 #+BEGIN_SRC ruby
 tp OrgTp.default_options
 # >> |-------------------+-------|
+# >> | markdown          | false |
 # >> | header            |       |
+# >> | cover             | true  |
 # >> | vertical          | |     |
 # >> | intersection      | +     |
 # >> | intersection_both | |     |
@@ -200,7 +204,7 @@ tp 1
 require 'tapp'
 require 'org_tp'
 
-"Hello".reverse.tapp.reverse.tapp
+"Hello".reverse.tapp(:tp).reverse.tapp(:tp)
 # >> |-------|
 # >> | olleH |
 # >> |-------|

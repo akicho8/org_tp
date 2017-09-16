@@ -11,7 +11,9 @@ tp OrgTp.default_options
 # >> | 1 |
 # >> +---+
 # >> |-------------------+-------|
+# >> | markdown          | false |
 # >> | header            |       |
+# >> | cover             | true  |
 # >> | vertical          | |     |
 # >> | intersection      | +     |
 # >> | intersection_both | |     |
@@ -20,7 +22,9 @@ tp OrgTp.default_options
 # >> | in_code           | UTF-8 |
 # >> |-------------------+-------|
 # >> +-------------------+-------+
+# >> | markdown          | false |
 # >> | header            |       |
+# >> | cover             | true  |
 # >> | vertical          | |     |
 # >> | intersection      | +     |
 # >> | intersection_both | +     |

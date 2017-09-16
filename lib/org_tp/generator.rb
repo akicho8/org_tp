@@ -6,6 +6,7 @@ require 'kconv'
 module OrgTp
   mattr_accessor :default_options do
     {
+      markdown: false,
       header: nil,
       cover: true,
       vertical: '|',
@@ -14,7 +15,6 @@ module OrgTp
       horizon: '-',
       padding: ' ',
       in_code: Kconv::UTF8,
-      markdown: false,
     }
   end
 
@@ -184,7 +184,6 @@ module OrgTp
             end
           },
         },
-
       ]
     end
   end

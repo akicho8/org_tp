@@ -20,14 +20,14 @@ tp array
 
 ######################################## markdown option
 
-# tp with options
+# tp with options # !> `*' interpreted as argument prefix
 tp array, markdown: true
 
 # to_t with options
 array.to_t(markdown: true) # => "| id | name  |\n|----|-------|\n|  1 | alice |\n|  2 | bob   |\n"
 
 puts
- # !> `*' interpreted as argument prefix
+
 # set global options
 OrgTp.default_options.update(markdown: true)
 tp array

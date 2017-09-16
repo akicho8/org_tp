@@ -14,10 +14,8 @@ module OrgTp
   end
 
   concern :ActiveRecordResult do
-    class_methods do
-      def to_t(**options)
-        OrgTp.generate(collect(&:to_h), options)
-      end
+    def to_t(**options)
+      OrgTp.generate(collect(&:to_h), options)
     end
   end
 end
