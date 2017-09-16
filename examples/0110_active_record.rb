@@ -19,6 +19,8 @@ tp User
 tp User.first
 tp User.limit(1)
 tp ActiveRecord::Base.connection.select_all('SELECT * FROM users')
+tp ActiveRecord::Base.connection.select_one('SELECT * FROM users')
+tp ActiveRecord::Base.connection.select_value('SELECT 1 + 2')
 # >> |----+-------|
 # >> | id | name  |
 # >> |----+-------|
@@ -42,3 +44,10 @@ tp ActiveRecord::Base.connection.select_all('SELECT * FROM users')
 # >> |  2 | bob   |
 # >> |  3 | carol |
 # >> |----+-------|
+# >> |------+-------|
+# >> | id   |     1 |
+# >> | name | alice |
+# >> |------+-------|
+# >> |---|
+# >> | 3 |
+# >> |---|

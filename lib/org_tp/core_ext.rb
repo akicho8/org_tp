@@ -12,6 +12,14 @@ module OrgTp
       OrgTp.generate(attributes, options)
     end
   end
+
+  concern :ActiveRecordResult do
+    class_methods do
+      def to_t(**options)
+        OrgTp.generate(collect(&:to_h), options)
+      end
+    end
+  end
 end
 
 Kernel.class_eval do
