@@ -74,11 +74,14 @@ module OrgTp
     private
 
     def table_rows_build
-      columns = @rows.inject([]) { |a, e| a | e.keys }
       if @options[:header]
-        @column_names = columns
+        @column_names = all_columns
       end
-      @table_rows = @rows.collect { |e| e.values_at(*columns) }
+      @table_rows = @rows.collect { |e| e.values_at(*all_columns) }
+    end
+
+    def all_columns
+      @all_columns ||= @rows.inject([]) { |a, e| a | e.keys }
     end
 
     def column_widths
