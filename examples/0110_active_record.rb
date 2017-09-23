@@ -20,7 +20,7 @@ tp User.first
 tp User.limit(1)
 tp ActiveRecord::Base.connection.select_all('SELECT * FROM users')
 tp ActiveRecord::Base.connection.select_one('SELECT * FROM users')
-tp ActiveRecord::Base.connection.select_value('SELECT 1 + 2')
+tp ActiveRecord::Base.connection.select_value('SELECT 1 + 2') # !> `*' interpreted as argument prefix
 # >> |----+-------|
 # >> | id | name  |
 # >> |----+-------|
@@ -29,7 +29,7 @@ tp ActiveRecord::Base.connection.select_value('SELECT 1 + 2')
 # >> |  3 | carol |
 # >> |----+-------|
 # >> |------+-------|
-# >> | id   |     1 |
+# >> |   id | 1     |
 # >> | name | alice |
 # >> |------+-------|
 # >> |----+-------|
@@ -45,7 +45,7 @@ tp ActiveRecord::Base.connection.select_value('SELECT 1 + 2')
 # >> |  3 | carol |
 # >> |----+-------|
 # >> |------+-------|
-# >> | id   |     1 |
+# >> |   id | 1     |
 # >> | name | alice |
 # >> |------+-------|
 # >> |---|

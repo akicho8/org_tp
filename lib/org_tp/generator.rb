@@ -51,6 +51,7 @@ module OrgTp
           if @options[:header].nil?
             @options[:header] = e[:header]
           end
+          @options[:align] ||= e[:align]
         end
       end
 
@@ -112,7 +113,7 @@ module OrgTp
 
     def line_str(row)
       s = row.collect.with_index {|e, i|
-        padding + just(e, column_widths[i]) + padding
+        padding + just(e, i) + padding
       }
       s = s.join(@options[:vertical])
       [@options[:vertical], s, @options[:vertical]].join
@@ -122,9 +123,11 @@ module OrgTp
       @options[:padding]
     end
 
-    def just(value, max_width)
-      align = Float(value) && :right rescue :left
-      space = ' ' * (max_width - str_width(value))
+    def just(value, i)
+      align = (@options[:align] || {}).fetch(all_columns[i]) do
+        Float(value) && :right rescue :left
+      end
+      space = ' ' * (column_widths[i] - str_width(value))
       lspace = ''
       rspace = ''
       if align == :right
@@ -153,6 +156,7 @@ module OrgTp
               {'(key)' => k.to_s, '(value)' => v.to_s}
             end
           },
+          align: {'(key)' => :right, '(value)' => :left},
         },
 
         # Array of Hash
@@ -204,6 +208,7 @@ if $0 == __FILE__
   print OrgTp.generate({a: 1, b: 2}, header: false)
   print OrgTp.generate([["a", "b"], ["c", "d"]])
   print OrgTp.generate([["a", "b"], {"c" => "d"}])
+  print OrgTp.generate({id: 1, created_at: "2000-01-01"})
 end
 # >> |---+----|
 # >> | a | [] |
