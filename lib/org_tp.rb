@@ -25,6 +25,8 @@ if defined?(Tapp)
     end
 
     register :tp, Tp
+    register :pt, Tp
+    register :tt, Tp
   end
 
   # # When tapp defaults to tp

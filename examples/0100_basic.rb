@@ -1,6 +1,7 @@
 $LOAD_PATH << '../lib'
 require 'org_tp'
 
+pt 1
 tp 1
 tp 'foo'
 tp :foo
@@ -10,6 +11,9 @@ tp [{id: 1, name: 'alice'}, {id: 2, name: 'bob'}]
 puts [{id: 1, name: 'alice'}, {id: 2, name: 'bob'}].to_t
 puts [{'a': ['a']}].to_t
 puts [{'a': {'a': 1}}].to_t
+# >> |---|
+# >> | 1 |
+# >> |---|
 # >> |---|
 # >> | 1 |
 # >> |---|

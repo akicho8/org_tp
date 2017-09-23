@@ -32,6 +32,9 @@ Kernel.class_eval do
       end
     end
   end
+
+  alias pt tp
+  alias tt tp
 end
 
 Array.class_eval do

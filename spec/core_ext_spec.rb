@@ -15,6 +15,6 @@ describe OrgTp do
 
   it 'result is like p method' do
     v = Object.new
-    quietly { tp v }.should == v
+    quietly { pt v }.should == v
   end
 end
