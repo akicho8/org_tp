@@ -36,7 +36,7 @@ tp [{id: 1, name: 'alice'}, {id: 2, name: 'bob'}]
 #+BEGIN_SRC ruby
 tp({id: 1, name: 'alice'})
 # >> |------+-------|
-# >> | id   |     1 |
+# >> |   id | 1     |
 # >> | name | alice |
 # >> |------+-------|
 #+END_SRC
@@ -102,7 +102,7 @@ tp User.limit(1)
 #+BEGIN_SRC ruby
 tp User.first
 # >> |------+-------|
-# >> | id   |     1 |
+# >> |   id | 1     |
 # >> | name | alice |
 # >> |------+-------|
 #+END_SRC
@@ -117,6 +117,31 @@ tp ActiveRecord::Base.connection.select_all('SELECT * FROM users')
 # >> |  1 | alice |
 # >> |  2 | bob   |
 # >> |----+-------|
+#+END_SRC
+
+** Various alias
+
+   *pt* and *tt* are alias of *tp*
+
+#+BEGIN_SRC ruby   
+pt :ok
+# >> |----|
+# >> | ok |
+# >> |----|
+#+END_SRC
+
+#+BEGIN_SRC ruby   
+tp :ok
+# >> |----|
+# >> | ok |
+# >> |----|
+#+END_SRC
+
+#+BEGIN_SRC ruby   
+tt :ok
+# >> |----|
+# >> | ok |
+# >> |----|
 #+END_SRC
 
 ** How to table as string
@@ -174,15 +199,15 @@ tp [{id: 1, name: 'alice'}, {id: 2, name: 'bob'}], intersection: '|', cover: fal
 #+BEGIN_SRC ruby
 tp OrgTp.default_options
 # >> |-------------------+-------|
-# >> | markdown          | false |
-# >> | header            |       |
-# >> | cover             | true  |
-# >> | vertical          | |     |
-# >> | intersection      | +     |
+# >> |          markdown | false |
+# >> |            header |       |
+# >> |             cover | true  |
+# >> |          vertical | |     |
+# >> |      intersection | +     |
 # >> | intersection_both | |     |
-# >> | horizon           | -     |
-# >> | padding           |       |
-# >> | in_code           | UTF-8 |
+# >> |           horizon | -     |
+# >> |           padding |       |
+# >> |           in_code | UTF-8 |
 # >> |-------------------+-------|
 
 tp 1

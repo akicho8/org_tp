@@ -11,24 +11,24 @@ tp OrgTp.default_options
 # >> | 1 |
 # >> +---+
 # >> |-------------------+-------|
-# >> | markdown          | false |
-# >> | header            |       |
-# >> | cover             | true  |
-# >> | vertical          | |     |
-# >> | intersection      | +     |
+# >> |          markdown | false |
+# >> |            header |       |
+# >> |             cover | true  |
+# >> |          vertical | |     |
+# >> |      intersection | +     |
 # >> | intersection_both | |     |
-# >> | horizon           | -     |
-# >> | padding           |       |
-# >> | in_code           | UTF-8 |
+# >> |           horizon | -     |
+# >> |           padding |       |
+# >> |           in_code | UTF-8 |
 # >> |-------------------+-------|
 # >> +-------------------+-------+
-# >> | markdown          | false |
-# >> | header            |       |
-# >> | cover             | true  |
-# >> | vertical          | |     |
-# >> | intersection      | +     |
+# >> |          markdown | false |
+# >> |            header |       |
+# >> |             cover | true  |
+# >> |          vertical | |     |
+# >> |      intersection | +     |
 # >> | intersection_both | +     |
-# >> | horizon           | -     |
-# >> | padding           |       |
-# >> | in_code           | UTF-8 |
+# >> |           horizon | -     |
+# >> |           padding |       |
+# >> |           in_code | UTF-8 |
 # >> +-------------------+-------+
