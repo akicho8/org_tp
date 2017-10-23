@@ -1,6 +1,6 @@
 $LOAD_PATH << '../lib'
 require 'active_record'
-require 'mongoid' # !> method redefined; discarding old as_json
+require 'mongoid'
 require 'org_tp'
 
 Mongo::Logger.logger.level = Logger::INFO
@@ -12,7 +12,7 @@ class User
   field :name, type: String
 end
 
-['alice', 'bob', 'carol'].each { |e| User.create!(name: e) } # !> method redefined; discarding old text_search
+['alice', 'bob', 'carol'].each { |e| User.create!(name: e) }
 
 tp User
 tp User.first
@@ -20,16 +20,16 @@ tp User.limit(1)
 # >> |--------------------------+-------|
 # >> | _id                      | name  |
 # >> |--------------------------+-------|
-# >> | 59bb8090f6453f365f93ddc3 | alice |
-# >> | 59bb8090f6453f365f93ddc4 | bob   |
-# >> | 59bb8090f6453f365f93ddc5 | carol |
+# >> | 59ed43e9f6453f17bc8e4fd3 | alice |
+# >> | 59ed43e9f6453f17bc8e4fd4 | bob   |
+# >> | 59ed43e9f6453f17bc8e4fd5 | carol |
 # >> |--------------------------+-------|
 # >> |------+--------------------------|
-# >> | _id  | 59bb8090f6453f365f93ddc3 |
+# >> |  _id | 59ed43e9f6453f17bc8e4fd3 |
 # >> | name | alice                    |
 # >> |------+--------------------------|
 # >> |--------------------------+-------|
 # >> | _id                      | name  |
 # >> |--------------------------+-------|
-# >> | 59bb8090f6453f365f93ddc3 | alice |
+# >> | 59ed43e9f6453f17bc8e4fd3 | alice |
 # >> |--------------------------+-------|

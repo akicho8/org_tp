@@ -20,7 +20,7 @@ tp array
 
 ######################################## markdown option
 
-# tp with options # !> `*' interpreted as argument prefix
+# tp with options
 tp array, markdown: true
 
 # to_t with options
