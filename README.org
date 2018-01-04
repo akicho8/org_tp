@@ -222,18 +222,3 @@ tp 1
 # >> | 1 |
 # >> +---+
 #+END_SRC
-
-** When used in conjunction with tapp gem
-
-#+BEGIN_SRC ruby
-require 'tapp'
-require 'org_tp'
-
-"Hello".reverse.tapp(:tp).reverse.tapp(:tp)
-# >> |-------|
-# >> | olleH |
-# >> |-------|
-# >> |-------|
-# >> | Hello |
-# >> |-------|
-#+END_SRC

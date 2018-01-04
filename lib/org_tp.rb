@@ -15,22 +15,3 @@ else
     Mongoid::Document.include(OrgTp::ActiveRecord)
   end
 end
-
-if defined?(Tapp)
-  module Tapp::Printer
-    class Tp < Base
-      def print(*args)
-        tp *args
-      end
-    end
-
-    register :tp, Tp
-    register :pt, Tp
-    register :tt, Tp
-  end
-
-  # # When tapp defaults to tp
-  # Tapp.configure do |config|
-  #   config.default_printer = :tp
-  # end
-end
