@@ -1,7 +1,6 @@
 $LOAD_PATH << '../lib'
 require 'org_tp'
 
-pt :ok
 tp :ok
 tt :ok
 tp 'foo'

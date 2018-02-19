@@ -33,7 +33,6 @@ Kernel.class_eval do
     end
   end
 
-  alias pt tp
   alias tt tp
 end
 

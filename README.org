@@ -141,21 +141,7 @@ tp ActiveRecord::Base.connection.select_all('SELECT * FROM users')
 
 ** Various alias
 
-   *pt* and *tt* are alias of *tp*
-
-#+BEGIN_SRC ruby
-pt :ok
-# >> |----|
-# >> | ok |
-# >> |----|
-#+END_SRC
-
-#+BEGIN_SRC ruby
-tp :ok
-# >> |----|
-# >> | ok |
-# >> |----|
-#+END_SRC
+   *tt* are alias of *tp*
 
 #+BEGIN_SRC ruby
 tt :ok
