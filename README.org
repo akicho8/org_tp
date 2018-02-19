@@ -1,6 +1,6 @@
-[[https://badge.fury.io/rb/org_tp][https://badge.fury.io/rb/org_tp.svg]]
-[[https://travis-ci.org/akicho8/org_tp][https://travis-ci.org/akicho8/org_tp.svg?branch=master]]
-[[https://codeclimate.com/github/akicho8/org_tp/maintainability][https://api.codeclimate.com/v1/badges/3af6a246ec61ddafd45d/maintainability]]
+#+html: <a href="https://badge.fury.io/rb/org_tp"><img src="https://badge.fury.io/rb/org_tp.svg" alt="Gem Version" height="18"></a>
+#+html: <a href="https://travis-ci.org/akicho8/org_tp"><img src="https://travis-ci.org/akicho8/org_tp.svg?branch=master" /></a>
+#+html: <a href="https://codeclimate.com/github/akicho8/org_tp/maintainability"><img src="https://api.codeclimate.com/v1/badges/3af6a246ec61ddafd45d/maintainability" /></a>
 
 * OrgTp
 
