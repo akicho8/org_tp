@@ -1,6 +1,26 @@
+[[https://badge.fury.io/rb/org_tp][https://badge.fury.io/rb/org_tp.svg]]
+[[https://travis-ci.org/akicho8/org_tp][https://travis-ci.org/akicho8/org_tp.svg?branch=master]]
+[[https://codeclimate.com/github/akicho8/org_tp/maintainability][https://api.codeclimate.com/v1/badges/3af6a246ec61ddafd45d/maintainability]]
+
 * OrgTp
 
   OrgTp shows text table like emacs org-table for easy reading.
+
+#+BEGIN_SRC ruby
+tp Object.constants.grep(/RUBY_/).map { |e| [e, Object.const_get(e)] }.to_h
+
+# >> |---------------------+------------------------------------------------------------|
+# >> |        RUBY_VERSION | 2.5.0                                                      |
+# >> |   RUBY_RELEASE_DATE | 2017-12-25                                                 |
+# >> |       RUBY_PLATFORM | x86_64-darwin16                                            |
+# >> |     RUBY_PATCHLEVEL | 0                                                          |
+# >> |    RUBY_DESCRIPTION | ruby 2.5.0p0 (2017-12-25 revision 61468) [x86_64-darwin16] |
+# >> |         RUBY_ENGINE | ruby                                                       |
+# >> |       RUBY_REVISION | 61468                                                      |
+# >> | RUBY_ENGINE_VERSION | 2.5.0                                                      |
+# >> |      RUBY_COPYRIGHT | ruby - Copyright (C) 1993-2017 Yukihiro Matsumoto          |
+# >> |---------------------+------------------------------------------------------------|
+#+END_SRC
 
 ** Installation
 
@@ -123,21 +143,21 @@ tp ActiveRecord::Base.connection.select_all('SELECT * FROM users')
 
    *pt* and *tt* are alias of *tp*
 
-#+BEGIN_SRC ruby   
+#+BEGIN_SRC ruby
 pt :ok
 # >> |----|
 # >> | ok |
 # >> |----|
 #+END_SRC
 
-#+BEGIN_SRC ruby   
+#+BEGIN_SRC ruby
 tp :ok
 # >> |----|
 # >> | ok |
 # >> |----|
 #+END_SRC
 
-#+BEGIN_SRC ruby   
+#+BEGIN_SRC ruby
 tt :ok
 # >> |----|
 # >> | ok |
