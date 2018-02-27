@@ -161,32 +161,32 @@ module OrgTp
 
         # Array of Hash
         {
-          _case: -> e { e.kind_of?(Array) && e.all? { |e| e.kind_of?(Hash) } },
+          _case: -> e { e.kind_of?(Array) && e.all? { |v| v.kind_of?(Hash) } },
           header: true,
           process: -> e { e },
         },
 
         # Array excluding Hash
         {
-          _case: -> e { e.kind_of?(Array) && e.none? { |e| e.kind_of?(Hash) } },
+          _case: -> e { e.kind_of?(Array) && e.none? { |v| v.kind_of?(Hash) } },
           header: false,
           process: -> e {
-            e.collect do |e|
-              {'(array_element)' => e}
+            e.collect do |v|
+              {'(array_element)' => v}
             end
           },
         },
 
         # Array containing Hash and others
         {
-          _case: -> e { e.kind_of?(Array) && e.any? { |e| !e.kind_of?(Hash) } },
+          _case: -> e { e.kind_of?(Array) && e.any? { |v| !v.kind_of?(Hash) } },
           header: true,
           process: -> e {
-            e.collect do |e|
-              if e.kind_of? Hash
-                e
+            e.collect do |v|
+              if v.kind_of? Hash
+                v
               else
-                {'(array_element)' => e}
+                {'(array_element)' => v}
               end
             end
           },
