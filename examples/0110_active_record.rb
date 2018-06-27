@@ -21,6 +21,9 @@ tp User.limit(1)
 tp ActiveRecord::Base.connection.select_all('SELECT * FROM users')
 tp ActiveRecord::Base.connection.select_one('SELECT * FROM users')
 tp ActiveRecord::Base.connection.select_value('SELECT 1 + 2')
+
+OrgTp.generate(User.first) rescue $! # => #<NoMethodError: undefined method `collect' for #<User id: 1, name: "alice">>
+
 # >> |----+-------|
 # >> | id | name  |
 # >> |----+-------|
